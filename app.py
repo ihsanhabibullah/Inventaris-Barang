@@ -25,13 +25,13 @@ def index():
 def data_barang():
     return render_template('admin/data_barang.html')
 
-@app.route('/data_katagori')
-def data_katagori():
-    return render_template('admin/data_katagori.html')
+@app.route('/data_kategori')
+def data_kategori():
+    return render_template('admin/data_kategori.html')
 
 @app.route('/data_laporan')
 def data_laporan():
-    return render_template('admin/data_laporann.html')
+    return render_template('admin/data_laporan.html')
 
 @app.route('/data_lokasi')
 def data_lokasi():
@@ -51,7 +51,7 @@ def edit_data_katagori():
 
 @app.route('/edit_data_lokasi')
 def edit_data_lokasi():
-    return render_template('admin/edit_data_lokasin.html')
+    return render_template('admin/edit_data_lokasi.html')
 
 @app.route('/edit_data_petugas')
 def edit_data_petugas():
