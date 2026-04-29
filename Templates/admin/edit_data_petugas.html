@@ -1,80 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Edit Data Petugas</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f3f3f3;
-    }
+{% extends 'admin/base.html' %}
 
-    .wrapper {
-      padding: 20px;
-    }
+{% block title %}Edit Data Petugas{% endblock %}
 
-    .card {
-      background: #ffffff;
-      padding: 40px;
-      margin: 20px;
-      border-radius: 2px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .subtitle {
-      color: #8c8c8c;
-      margin-top: 5px;
-      margin-bottom: 30px;
-      font-size: 14px;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d9d9d9;
-      border-radius: 6px;
-      margin-bottom: 25px;
-      font-size: 14px;
-      box-sizing: border-box;
-      background: #fff;
-    }
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 15px;
-      margin-top: 30px;
-    }
-
-    .btn {
-      padding: 10px 28px;
-      font-size: 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 1px solid #bfbfbf;
-      background: #fff;
-    }
-
-    .btn-primary {
-      background-color: #2f86d6;
-      color: #fff;
-      border: none;
-    }
-  </style>
-</head>
-<body>
+{% block content %}
 
   <div class="wrapper">
     <div class="card">
@@ -96,5 +24,4 @@
     </div>
   </div>
 
-</body>
-</html>
+{% endblock%}

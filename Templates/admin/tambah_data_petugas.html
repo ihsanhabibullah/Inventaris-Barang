@@ -1,76 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Tambah Data Petugas</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-    }
+{% extends 'admin/base.html' %}
 
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 40px auto;
-      background: #ffffff;
-      padding: 40px;
-      box-sizing: border-box;
-    }
+{% block title %}Tambah Data Petugas{% endblock %}
 
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .subtitle {
-      color: #888;
-      margin-top: 5px;
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 25px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .btn {
-      padding: 10px 25px;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      background: #fff;
-    }
-
-    .btn-primary {
-      background-color: #2d8cf0;
-      color: #fff;
-      border: none;
-    }
-  </style>
-</head>
-<body>
+{% block content %}
 
   <div class="container">
     <h1>Tambah Data Petugas</h1>
@@ -90,5 +22,4 @@
     </form>
   </div>
 
-</body>
-</html>
+  {% endblock%}
