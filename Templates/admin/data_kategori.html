@@ -1,101 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Data Kategori</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% extends 'admin/base.html' %}
 
-<style>
-body {
-    background-color: #f2f2f2;
-    font-family: Arial, sans-serif;
-}
+{% block title %}Daata Kategori{% endblock %}
 
-.sidebar {
-    width: 230px;
-    height: 100vh;
-    background: #2f3fb0;
-    color: white;
-    position: fixed;
-    padding: 20px 15px;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-.logo span {
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 1.2;
-}
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    border-radius: 25px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.menu-item.active {
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-}
-
-.menu-item:hover {
-    background: rgba(255,255,255,0.15);
-}
-
-.menu-item svg {
-    margin-right: 10px;
-}
-
-.admin {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.content {
-    margin-left: 250px;
-    padding: 30px;
-}
-
-.card-box {
-    background: #e9ecef;
-    padding: 25px;
-    border-radius: 5px;
-}
-
-.table thead {
-    background-color: #cfd8dc;
-}
-
-.btn-edit {
-    background: #f4d03f;
-    border: none;
-    padding: 3px 10px;
-    font-size: 12px;
-}
-
-.btn-delete {
-    background: red;
-    color: white;
-    border: none;
-    padding: 3px 10px;
-    font-size: 12px;
-}
-</style>
-</head>
-
-<body>
+{% block content %}
 
 <!-- Sidebar -->
 <div class="sidebar">
@@ -224,3 +131,5 @@ body {
 
 </body>
 </html>
+
+{% endblock %}
