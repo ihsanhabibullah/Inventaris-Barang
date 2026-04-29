@@ -21,6 +21,14 @@ body {
   justify-content: space-between;
 }
 
+.sidebar-data_barang {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
 /* LOGO */
 .logo {
   display: flex;
@@ -97,9 +105,17 @@ body {
 }
 
 /* ========== CONTENT ========== */
-.content {
+.content{
   flex: 1;
   padding: 30px;
+}
+
+.content-data_barang{
+  margin-left: 250px;   /* sama dengan lebar sidebar */
+  padding: 30px;
+  width: calc(100% - 250px);
+  background: #f4f6f9;
+  min-height: 100vh;
 }
 
 /* HEADER DASHBOARD */
@@ -126,6 +142,16 @@ body {
   border-radius: 15px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   width: 160px;
+}
+
+.card-box-data_barang {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+  width: 100%;          /* ini penting */
+  max-width: 100%;      /* jangan dibatasi */
 }
 
 .card-icon {
@@ -156,6 +182,10 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.table-data_barang {
+  width: 100%;
 }
 
 thead {
