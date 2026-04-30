@@ -144,6 +144,14 @@ body {
   width: 160px;
 }
 
+.card-box-data_kategori {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  width: 120vh;
+}
+
 .card-box-data_barang {
   background: white;
   padding: 25px;
