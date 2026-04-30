@@ -235,7 +235,60 @@ th, td {
   padding: 8px 15px;
 }
 
-/* ========== RESPONSIVE (BIAR TIDAK BERANTAKAN) ========== */
+.warpper {
+  display : flex;
+  justify-content: center;
+  align-items : center;
+  min-height : 80vh ;
+}
+
+.card {
+  background : white ;
+  padding : 30px ;
+  border-radius : 15px ;
+  width : 500px ;
+  box-shadow : 0 6px 18px rgba(0,0,0,0,08) ;
+}
+
+.card h1 {
+  margin-bottom: 5px;
+}
+form {
+  display : flex;
+  flex-direction: column;
+
+}
+
+form label {
+  margin-bottom :5px;
+  font-size :14px ;
+}
+
+form input {
+  padding : 10px ;
+  border-radius :8px;
+  border : 1px solid #ccc ;
+  margin-bottom: 20px;
+}
+
+.actions {
+  display : flex;
+  gap: 10px;
+}
+
+.btn {
+  padding :10px 15px ;
+  border-radius : 8px;
+  border : none ;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background : #2c7ecf ;
+  color :white;
+}
+
+
 @media (max-width: 900px) {
   .sidebar {
     width: 220px;
