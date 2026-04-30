@@ -113,9 +113,9 @@ body {
 .content-data_barang{
   margin-left: 250px;   /* sama dengan lebar sidebar */
   padding: 30px;
+  min-height: 100vh;
   width: calc(100% - 250px);
   background: #f4f6f9;
-  min-height: 100vh;
 }
 
 /* HEADER DASHBOARD */
@@ -235,24 +235,29 @@ th, td {
   padding: 8px 15px;
 }
 
-.warpper {
-  display : flex;
-  justify-content: center;
-  align-items : center;
-  min-height : 80vh ;
+.wrapper {
+  width: 100%;
+  padding: 40px 20px;
 }
 
 .card {
-  background : white ;
-  padding : 30px ;
-  border-radius : 15px ;
-  width : 500px ;
-  box-shadow : 0 6px 18px rgba(0,0,0,0,08) ;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width : 100%;
+  max-width: 100%;
+  margin: 0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0,.08);
 }
 
 .card h1 {
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
+.subtitle {
+  margin-bottom: 20px;
+}
+
+
 form {
   display : flex;
   flex-direction: column;
@@ -271,8 +276,16 @@ form input {
   margin-bottom: 20px;
 }
 
+form select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
 .actions {
   display : flex;
+  justify-content :flex-end;
   gap: 10px;
 }
 
