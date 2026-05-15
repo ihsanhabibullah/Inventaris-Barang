@@ -1,126 +1,70 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Login Inventaris</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background: #f0f0f0;
-    }
+{% extends 'base.html' %}
 
-    .container-box {
-      background: #f7f7f7;
-      margin: 40px auto;
-      width: 90%;
-      height: 500px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 5px;
-    }
+{% block title %}Login Petugas{% endblock %}
 
-    /* SVG kiri */
-    .left-svg {
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 40%;
-    }
+{% block content %}
 
-    .left-content {
-      position: absolute;
-      left: 60px;
-      top: 100px;
-      color: white;
-      width: 250px;
-    }
+<div class="login-container">
 
-    .left-content h3 {
-      font-weight: bold;
-    }
+    <!-- LEFT SIDE -->
+    <div class="login-left">
 
-    .left-content p {
-      font-size: 14px;
-    }
+        <h1>WELCOME</h1>
 
-    /* kanan */
-    .right-content {
-      position: absolute;
-      right: 0;
-      width: 60%;
-      height: 100%;
-      padding: 80px;
-      text-align: center;
-    }
+        <h3>
+            SISTEM INVENTARIS <br>
+            BARANG
+        </h3>
 
-    .form-control {
-      background: #e5e5e5;
-      border: none;
-      margin-bottom: 20px;
-    }
+        <p>
+            Kelola data barang, stok, transaksi,
+            dan laporan inventaris dengan
+            lebih mudah, cepat terorgeniir
+        </p>
 
-    .btn-login {
-      background: #3498db;
-      color: white;
-      width: 60%;
-      padding: 10px;
-      border-radius: 6px;
-      font-weight: bold;
-    }
+    </div>
 
-    .user-icon {
-      position: absolute;
-      right: 30px;
-      top: 20px;
-    }
-  </style>
-</head>
+    <!-- RIGHT SIDE -->
+    <div class="login-right">
 
-<body>
+        <!-- ICON USER -->
+        <div class="user-login">
+            <i class="bi bi-person-fill"></i>
+        </div>
 
-<div class="container-box">
+        <!-- LOGIN FORM -->
+        <div class="login-box">
 
-  <!-- SVG Background Kiri -->
-  <svg class="left-svg" viewBox="0 0 300 500" preserveAspectRatio="none">
-    <path d="M0,0 H220 Q300,250 220,500 H0 Z" fill="#2c3eaa"/>
-  </svg>
+            <h2 class="login-title">
+                Login Petugas
+            </h2>
 
-  <!-- Text Kiri -->
-  <div class="left-content">
-    <h3>WELCOME</h3>
-    <br>
-    <h5>SISTEM INVENTARIS BARANG</h5>
-    <br>
-    <p>
-      Kelola data barang, stok,<br>
-      transaksi, dan laporan<br>
-      inventaris dengan lebih mudah,<br>
-      cepat terorganisir
-    </p>
-  </div>
+            <form method="POST">
 
-  <!-- Icon kanan atas -->
-  <div class="user-icon">
-    <svg width="40" height="40" fill="black" viewBox="0 0 24 24">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 22c0-4 4-6 8-6s8 2 8 6"/>
-    </svg>
-  </div>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required
+                >
 
-  <!-- Form kanan -->
-  <div class="right-content">
-    <h2><b>Login Sebagai Petugas</b></h2>
-    <br><br>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                >
 
-    <input type="text" class="form-control" placeholder="Username">
-    <input type="password" class="form-control" placeholder="Password">
+                <button type="submit" class="btn-login">
+                    Login
+                </button>
 
-    <br>
-    <button class="btn btn-login">Login</button>
-  </div>
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
-</html>
+{% endblock %}

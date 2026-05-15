@@ -77,5 +77,9 @@ def tambah_data_petugas():
 def tambah_kategori():
     return render_template('admin/tambah_kategori.html')
 
+@app.route('/login_petugas')
+def login_petugas():
+    return render_template('petugas/login_petugas.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
