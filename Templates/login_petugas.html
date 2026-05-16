@@ -1,48 +1,69 @@
-{% extends 'admin/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Login Petugas{% endblock %}
 
 {% block content %}
-<div class="container-box">
 
-  <!-- SVG Background Kiri -->
-  <svg class="left-svg" viewBox="0 0 300 500" preserveAspectRatio="none">
-    <path d="M0,0 H220 Q300,250 220,500 H0 Z" fill="#2c3eaa"/>
-  </svg>
+<div class="login-container">
 
-  <!-- Text Kiri -->
-  <div class="left-content">
-    <h3>WELCOME</h3>
-    <br>
-    <h5>SISTEM INVENTARIS BARANG</h5>
-    <br>
-    <p>
-      Kelola data barang, stok,<br>
-      transaksi, dan laporan<br>
-      inventaris dengan lebih mudah,<br>
-      cepat terorganisir
-    </p>
-  </div>
+    <!-- LEFT SIDE -->
+    <div class="login-left">
 
-  <!-- Icon kanan atas -->
-  <div class="user-icon">
-    <svg width="40" height="40" fill="black" viewBox="0 0 24 24">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 22c0-4 4-6 8-6s8 2 8 6"/>
-    </svg>
-  </div>
+        <h1>WELCOME</h1>
 
-  <!-- Form kanan -->
-  <div class="right-content">
-    <h2><b>Login Sebagai Petugas</b></h2>
-    <br><br>
+        <h3>
+            SISTEM INVENTARIS <br>
+            BARANG
+        </h3>
 
-    <input type="text" class="form-control" placeholder="Username">
-    <input type="password" class="form-control" placeholder="Password">
+        <p>
+            Kelola data barang, stok, transaksi,
+            dan laporan inventaris dengan
+            lebih mudah, cepat terorgeniir
+        </p>
 
-    <br>
-    <button class="btn btn-login">Login</button>
-  </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="login-right">
+
+        <!-- ICON USER -->
+        <div class="user-login">
+            <i class="bi bi-person-fill"></i>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div class="login-box">
+
+            <h2 class="login-title">
+                Login Petugas
+            </h2>
+
+            <form method="POST">
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required
+                >
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                >
+
+                <button type="submit" class="btn-login">
+                    Login
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
