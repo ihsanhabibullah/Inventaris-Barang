@@ -77,6 +77,7 @@ def edit_data_petugas():
 
 @app.route('/tambah_barang')
 def tambah_barang():
+    # route untuk menambahkan barang
     return render_template('admin/tambah_barang.html')
 
 @app.route('/tambah_data_lokasi')
