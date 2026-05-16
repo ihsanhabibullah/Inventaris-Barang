@@ -89,7 +89,7 @@ def tambah_data_petugas():
 def tambah_kategori():
     return render_template('admin/tambah_kategori.html')
 
-# ---------------- Petugas 1 ------------------#
+# ---------------- Petugas  ------------------#
 
 
 @app.route('/data_laporan_petugas')
