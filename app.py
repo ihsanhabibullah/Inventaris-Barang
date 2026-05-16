@@ -17,8 +17,24 @@ app.config['UPLOAD_FOLDER']='static/uploads'
 mysql = MySQL(app)
 
 
+# ---------------- Login (ini buka ai pak cuman untuk bedain) -----------------#
+
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/login_petugas')
+def login_petugas():
+    return render_template('login_petugas.html')
+
+@app.route('/login_admin')
+def login_admin():
+    return render_template('login_admin.html')
+
+# ---------------- Admin  -----------------#
+
+@app.route('/dashboard')
+def dashboard():
     return render_template('admin/dashboard_admin.html')
     
 @app.route('/data_barang')
@@ -57,10 +73,6 @@ def edit_data_lokasi():
 def edit_data_petugas():
     return render_template('admin/edit_data_petugas.html')
 
-@app.route('/login_admin')
-def login_admin():
-    return render_template('admin/login_admin.html')
-
 @app.route('/tambah_barang')
 def tambah_barang():
     return render_template('admin/tambah_barang.html')
@@ -77,9 +89,16 @@ def tambah_data_petugas():
 def tambah_kategori():
     return render_template('admin/tambah_kategori.html')
 
-@app.route('/login_petugas')
-def login_petugas():
-    return render_template('petugas/login_petugas.html')
+# ---------------- Petugas ------------------#
+
+
+@app.route('/data_laporan_petugas')
+def data_laporan_petugas():
+    return render_template('petugas/data_laporan_petugas.html')
+
+@app.route('/tambah_transaksi')
+def tambah_transaksi():
+    return render_template('petugas/tambah_transaksi.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
