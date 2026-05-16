@@ -21,6 +21,7 @@ mysql = MySQL(app)
 
 @app.route('/')
 def index():
+    
     return render_template('index.html')
 
 @app.route('/login_petugas')
@@ -35,6 +36,7 @@ def login_admin():
 
 @app.route('/dashboard')
 def dashboard():
+    # tes konflik
     return render_template('admin/dashboard_admin.html')
     
 @app.route('/data_barang')
