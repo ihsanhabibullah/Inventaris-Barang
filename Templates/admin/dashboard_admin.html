@@ -4,125 +4,196 @@
 
 {% block content %}
 
-<div class="header">
-  <h3>Dashboard</h3>
-  <p>Selamat datang, Admin</p>
-</div>
+<style>
 
-<!-- CARDS -->
-<div class="cards">
+.content{
+    width: 100%;
+    padding: 20px;
+}
 
-  <div class="card-box">
-    <div class="card-icon blue"></div>
-    <h2>1</h2>
-    <p>Total Barang</p>
-  </div>
+.header{
+    margin-bottom: 20px;
+}
 
-  <div class="card-box">
-    <div class="card-icon green"></div>
-    <h2>1</h2>
-    <p>Total Petugas</p>
-  </div>
+.dashboard-cards{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
 
-  <div class="card-box">
-    <div class="card-icon yellow"></div>
-    <h2>1</h2>
-    <p>Total Kategori</p>
-  </div>
+.card-box{
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
 
-  <div class="card-box">
-    <div class="card-icon red"></div>
-    <h2>1</h2>
-    <p>Total Transaksi hari ini</p>
-  </div>
+.card-box:hover{
+    transform: translateY(-5px);
+}
 
-</div>
+.card-box h2{
+    margin-top: 10px;
+    font-size: 28px;
+}
 
-<!-- TABLE -->
-<div class="table-box">
-  <h5>Notifikasi</h5>
+.card-box p{
+    margin-top: 10px;
+    color: #666;
+}
 
-  <table>
-    <thead>
-      <tr>
-        <th>Lokasi</th>
-        <th>Nama Barang</th>
-        <th>Kategori</th>
-        <th>Stok</th>
-        <th>Kondisi</th>
-        <th>Tanggal</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
+/* RESPONSIVE */
+@media(max-width: 768px){
+    .dashboard-cards{
+        flex-wrap: wrap;
+    }
 
-    <tbody>
-      <tr>
-        <td>Ruang A</td>
-        <td>Laptop Asus</td>
-        <td>Elektronik</td>
-        <td>15</td>
-        <td>Baik</td>
-        <td>9/4/2026</td>
-        <td>
-          <button class="btn-edit">Edit</button>
-          <button class="btn-hapus">Hapus</button>
-        </td>
-      </tr>
+    .card-box{
+        min-width: 48%;
+    }
+}
 
-      <tr>
-        <td>Ruang B</td>
-        <td>Meja</td>
-        <td>Furniture</td>
-        <td>15</td>
-        <td>Baik</td>
-        <td>9/4/2026</td>
-        <td>
-          <button class="btn-edit">Edit</button>
-          <button class="btn-hapus">Hapus</button>
-        </td>
-      </tr>
+@media(max-width: 576px){
+    .card-box{
+        min-width: 100%;
+    }
+}
 
-      <tr>
-        <td>Ruang B</td>
-        <td>Kursi</td>
-        <td>Furniture</td>
-        <td>20</td>
-        <td>Rusak</td>
-        <td>9/4/2026</td>
-        <td>
-          <button class="btn-edit">Edit</button>
-          <button class="btn-hapus">Hapus</button>
-        </td>
-      </tr>
+</style>
 
-      <tr>
-        <td>Ruang A</td>
-        <td>Monitor LG</td>
-        <td>Elektronik</td>
-        <td>10</td>
-        <td>Baik</td>
-        <td>9/4/2026</td>
-        <td>
-          <button class="btn-edit">Edit</button>
-          <button class="btn-hapus">Hapus</button>
-        </td>
-      </tr>
+<div class="content">
 
-      <tr>
-        <td>Ruang B</td>
-        <td>Laptop Acer</td>
-        <td>Elektronik</td>
-        <td>5</td>
-        <td>Rusak</td>
-        <td>9/4/2026</td>
-        <td>
-          <button class="btn-edit">Edit</button>
-          <button class="btn-hapus">Hapus</button>
-        </td>
-      </tr>
+    <!-- HEADER -->
+    <div class="header">
+        <h3>Dashboard</h3>
+        <p>Selamat datang, Admin</p>
+    </div>
 
-    </tbody>
-  </table>
+    <!-- CARD -->
+    <div class="dashboard-cards">
+
+        <div class="card-box">
+            <div class="card-icon blue"></div>
+            <p>Total Barang</p>
+            <h2>1</h2>
+        </div>
+
+        <div class="card-box">
+            <div class="card-icon green"></div>
+            <p>Total Petugas</p>
+            <h2>1</h2>
+        </div>
+
+        <div class="card-box">
+            <div class="card-icon yellow"></div>
+            <p>Total Kategori</p>
+            <h2>1</h2>
+        </div>
+
+        <div class="card-box">
+            <div class="card-icon red"></div>
+            <p>Total Transaksi Hari Ini</p>
+            <h2>1</h2>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-box">
+
+        <h5 class="mb-3">Notifikasi</h5>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Lokasi</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori</th>
+                    <th>Stok</th>
+                    <th>Kondisi</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Ruang A</td>
+                    <td>Laptop Asus</td>
+                    <td>Elektronik</td>
+                    <td>15</td>
+                    <td>Baik</td>
+                    <td>9/4/2026</td>
+                    <td>
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-hapus">Hapus</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang B</td>
+                    <td>Meja</td>
+                    <td>Furniture</td>
+                    <td>15</td>
+                    <td>Baik</td>
+                    <td>9/4/2026</td>
+                    <td>
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-hapus">Hapus</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang B</td>
+                    <td>Kursi</td>
+                    <td>Furniture</td>
+                    <td>20</td>
+                    <td>Rusak</td>
+                    <td>9/4/2026</td>
+                    <td>
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-hapus">Hapus</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang A</td>
+                    <td>Monitor LG</td>
+                    <td>Elektronik</td>
+                    <td>10</td>
+                    <td>Baik</td>
+                    <td>9/4/2026</td>
+                    <td>
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-hapus">Hapus</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang B</td>
+                    <td>Laptop Acer</td>
+                    <td>Elektronik</td>
+                    <td>5</td>
+                    <td>Rusak</td>
+                    <td>9/4/2026</td>
+                    <td>
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-hapus">Hapus</button>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
 
 {% endblock %}

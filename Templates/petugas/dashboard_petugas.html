@@ -4,6 +4,63 @@
 
 {% block content %}
 
+<style>
+
+.content{
+    width: 100%;
+    padding: 20px;
+}
+
+.dashboard-cards{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.card-box{
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card-box:hover{
+    transform: translateY(-5px);
+}
+
+.card-box h2{
+    margin-top: 10px;
+    font-size: 28px;
+}
+
+.card-box p{
+    margin-top: 10px;
+    color: #666;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px){
+    .dashboard-cards{
+        flex-wrap: wrap;
+    }
+
+    .card-box{
+        min-width: 48%;
+    }
+}
+
+@media(max-width: 576px){
+    .card-box{
+        min-width: 100%;
+    }
+}
+
+</style>
+
 <div class="content">
 
     <!-- HEADER -->
@@ -13,7 +70,7 @@
     </div>
 
     <!-- CARD -->
-    <div class="cards">
+    <div class="dashboard-cards">
 
         <div class="card-box">
             <div class="card-icon blue"></div>
