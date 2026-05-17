@@ -631,6 +631,35 @@ def data_petugas():
         petugas=petugas
     )
 
+# ================= lihat barang lokasi ================= #
+@app.route('/barang_lokasi/<int:id>')
+def barang_lokasi(id):
+    conn = mysql.connection
+    cursor = conn.cursor()
+
+    # lokasi
+    cursor.execute("SELECT * FROM lokasi WHERE id_lokasi = %s", (id,))
+    lokasi = cursor.fetchone()
+
+    # barang
+    cursor.execute("""
+        SELECT id_barang, nama_barang, nomor_barang, kondisi_barang
+        FROM barang
+        WHERE id_lokasi = %s
+    """, (id,))
+    barang = cursor.fetchall()
+
+    print("LOKASI:", lokasi)
+    print("BARANG:", barang)
+
+    cursor.close()
+
+    return render_template(
+        'admin/barang_lokasi.html',
+        lokasi=lokasi,
+        barang=barang
+    )
+
 
 # ================= TAMBAH PETUGAS ================= #
 
@@ -779,30 +808,37 @@ def hapus_petugas(id):
 # ================= DATA LAPORAN ================= #
 
 @app.route('/data_laporan')
-@login_required
 def data_laporan():
 
     cur = mysql.connection.cursor()
 
-    cur.execute("""
-        SELECT
-            transaksi.id_transaksi,
-            barang.nama_barang,
-            barang.nomor_barang,
-            barang.kondisi_barang,
-            kategori.nama_kategori,
-            lokasi.nama_lokasi,
-            transaksi.tipe,
-            transaksi.tanggal
-        FROM transaksi
-        JOIN barang
-        ON transaksi.id_barang = barang.id_barang
-        JOIN kategori
-        ON barang.id_kategori = kategori.id_kategori
-        JOIN lokasi
-        ON barang.id_lokasi = lokasi.id_lokasi
-        ORDER BY transaksi.id_transaksi DESC
-    """)
+    query = """
+        SELECT 
+            l.nama_lokasi,
+            b.nama_barang,
+            k.nama_kategori,
+            b.kondisi_barang,
+            t.tanggal,
+            p.username,
+            t.tipe
+        FROM transaksi t
+
+        INNER JOIN barang b 
+            ON t.id_barang = b.id_barang
+
+        INNER JOIN kategori k 
+            ON b.id_kategori = k.id_kategori
+
+        INNER JOIN lokasi l 
+            ON b.id_lokasi = l.id_lokasi
+
+        INNER JOIN petugas p 
+            ON t.id_petugas = p.id_petugas
+
+        ORDER BY t.tanggal DESC
+    """
+
+    cur.execute(query)
 
     laporan = cur.fetchall()
 
@@ -812,7 +848,6 @@ def data_laporan():
         'admin/data_laporan.html',
         laporan=laporan
     )
-
 # ================= DASHBOARD PETUGAS ================= #
 
 @app.route('/dashboard_petugas')

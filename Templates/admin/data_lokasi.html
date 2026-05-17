@@ -4,13 +4,61 @@
 
 {% block content %}
 
+<style>
+    .btn-lihat {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-right: 6px;
+    }
+
+    .btn-lihat:hover {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-edit {
+        background: #facc15;
+        color: #000;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: 0.3s;
+        margin-right: 6px;
+    }
+
+    .btn-edit:hover {
+        background: #eab308;
+    }
+
+    .btn-hapus {
+        background: #ef4444;
+        color: white;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .btn-hapus:hover {
+        background: #dc2626;
+    }
+</style>
+
 <div class="table-box">
 
     <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
         <div>
-
             <h3 class="mb-1 fw-bold">
                 Data Lokasi
             </h3>
@@ -18,15 +66,12 @@
             <p class="text-secondary mb-0">
                 Daftar lokasi penyimpanan barang inventaris
             </p>
-
         </div>
 
         <a href="{{ url_for('tambah_lokasi') }}">
-
             <button class="btn btn-add">
                 + Tambah Lokasi
             </button>
-
         </a>
 
     </div>
@@ -37,51 +82,47 @@
         <table class="table custom-table align-middle mb-0">
 
             <thead>
-
                 <tr>
                     <th>ID</th>
                     <th>Nama Lokasi</th>
                     <th class="text-end">Aksi</th>
                 </tr>
-
             </thead>
 
             <tbody>
 
-                <!-- JIKA DATA ADA -->
                 {% if lokasi %}
 
                     {% for l in lokasi %}
 
                     <tr>
 
-                        <td>
-                            {{ l.id_lokasi }}
-                        </td>
+                        <td>{{ l.id_lokasi }}</td>
 
-                        <td>
-                            {{ l.nama_lokasi }}
-                        </td>
+                        <td>{{ l.nama_lokasi }}</td>
 
                         <td class="text-end">
 
-                            
+                            <!-- LIHAT BARANG -->
+                            <a href="{{ url_for('barang_lokasi', id=l.id_lokasi) }}">
+                                <button class="btn-lihat">
+                                    Lihat
+                                </button>
+                            </a>
+
                             <!-- EDIT -->
                             <a href="{{ url_for('edit_lokasi', id=l.id_lokasi) }}">
                                 <button class="btn-edit">
                                     Edit
                                 </button>
-
                             </a>
 
                             <!-- HAPUS -->
                             <a href="{{ url_for('hapus_lokasi', id=l.id_lokasi) }}"
                                onclick="return confirm('Yakin ingin menghapus lokasi ini?')">
-
                                 <button class="btn-hapus">
                                     Hapus
                                 </button>
-
                             </a>
 
                         </td>
@@ -90,17 +131,12 @@
 
                     {% endfor %}
 
-                <!-- JIKA KOSONG -->
                 {% else %}
 
                     <tr>
-
                         <td colspan="3" class="text-center py-4 text-secondary">
-
                             Data lokasi masih kosong
-
                         </td>
-
                     </tr>
 
                 {% endif %}

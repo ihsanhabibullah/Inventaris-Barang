@@ -1,0 +1,75 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Barang Lokasi{% endblock %}
+
+{% block content %}
+
+<div class="table-box">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+        <div>
+            <h3 class="mb-1 fw-bold">
+                Barang di Lokasi
+            </h3>
+
+            <p class="text-secondary mb-0">
+                {{ lokasi[1] }}
+            </p>
+        </div>
+
+        <a href="{{ url_for('data_lokasi') }}">
+            <button class="btn btn-secondary">
+                ← Kembali
+            </button>
+        </a>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrapper">
+
+        <table class="table custom-table align-middle mb-0">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% if barang %}
+
+                    {% for b in barang %}
+                    <tr>
+                        <td>{{ b[0] }}</td>
+                        <td>{{ b[1] }}</td>
+                        <td>{{ b[2] }}</td>
+                        <td>{{ b[3] }}</td>
+                    </tr>
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-secondary">
+                            Tidak ada barang di lokasi ini
+                        </td>
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
