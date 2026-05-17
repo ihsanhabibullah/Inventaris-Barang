@@ -1,103 +1,129 @@
 {% extends 'petugas/base_petugas.html' %}
+
+{% block title %}Data Laporan{% endblock %}
+
 {% block content %}
+
 <!-- Main Content -->
-<div class="main">
-  <div class="header-box">Data Laporan</div>
+<div class="content">
 
-  <button class="btn btn-add mb-3"  >+ Tambah Data Transaksi</button>
+  <!-- TITLE -->
+  <div class="title-box">
+    Data Laporan
+  </div>
 
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Lokasi</th>
-        <th>Nama Barang</th>
-        <th>Kategori</th>
-        <th>Stok</th>
-        <th>Kondisi</th>
-        <th>Tanggal</th>
-        <th>Nama Petugas</th>
-        <th>Transaksi</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ruang A</td>
-        <td>Laptop Asus</td>
-        <td>Elektronik</td>
-        <td>15</td>
-        <td>Baik</td>
-        <td>9/4/2026</td>
-        <td>Andi</td>
-        <td><span class="badge badge-masuk">Masuk</span></td>
-        <td>
-          <button class="btn btn-edit btn-sm">Edit</button>
-          <button class="btn btn-hapus btn-sm">Hapus</button>
-        </td>
-      </tr>
+  <!-- TABLE -->
+  <div class="table-wrapper">
 
-      <tr>
-        <td>Ruang B</td>
-        <td>Meja</td>
-        <td>Furniture</td>
-        <td>15</td>
-        <td>Baik</td>
-        <td>9/4/2026</td>
-        <td>Andi</td>
-        <td><span class="badge badge-keluar">Keluar</span></td>
-        <td>
-          <button class="btn btn-edit btn-sm">Edit</button>
-          <button class="btn btn-hapus btn-sm">Hapus</button>
-        </td>
-      </tr>
+    <table>
 
-      <tr>
-        <td>Ruang A</td>
-        <td>Kursi</td>
-        <td>Furniture</td>
-        <td>20</td>
-        <td>Rusak</td>
-        <td>9/4/2026</td>
-        <td>Budi</td>
-        <td><span class="badge badge-masuk">Masuk</span></td>
-        <td>
-          <button class="btn btn-edit btn-sm">Edit</button>
-          <button class="btn btn-hapus btn-sm">Hapus</button>
-        </td>
-      </tr>
+      <thead>
+        <tr>
+          <th>Lokasi</th>
+          <th>Nama Barang</th>
+          <th>Kategori</th>
+          <th>Stok</th>
+          <th>Kondisi</th>
+          <th>Tanggal</th>
+          <th>Nama Petugas</th>
+          <th>Transaksi</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
 
-      <tr>
-        <td>Ruang A</td>
-        <td>Monitor LG</td>
-        <td>Elektronik</td>
-        <td>10</td>
-        <td>Baik</td>
-        <td>9/4/2026</td>
-        <td>Angga</td>
-        <td><span class="badge badge-keluar">Keluar</span></td>
-        <td>
-          <button class="btn btn-edit btn-sm">Edit</button>
-          <button class="btn btn-hapus btn-sm">Hapus</button>
-        </td>
-      </tr>
+      <tbody>
 
-      <tr>
-        <td>Ruang B</td>
-        <td>Laptop Acer</td>
-        <td>Elektronik</td>
-        <td>5</td>
-        <td>Rusak</td>
-        <td>9/4/2026</td>
-        <td>Fani</td>
-        <td><span class="badge badge-keluar">Keluar</span></td>
-        <td>
-          <button class="btn btn-edit btn-sm">Edit</button>
-          <button class="btn btn-hapus btn-sm">Hapus</button>
-        </td>
-      </tr>
+        <tr>
+          <td>Ruang A</td>
+          <td>Laptop Asus</td>
+          <td>Elektronik</td>
+          <td>15</td>
+          <td>Baik</td>
+          <td>9/4/2026</td>
+          <td>Andi</td>
+          <td>
+            <span class="badge masuk">Masuk</span>
+          </td>
+          <td>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-hapus">Hapus</button>
+          </td>
+        </tr>
 
-    </tbody>
-  </table>
+        <tr>
+          <td>Ruang B</td>
+          <td>Meja</td>
+          <td>Furniture</td>
+          <td>15</td>
+          <td>Baik</td>
+          <td>9/4/2026</td>
+          <td>Andi</td>
+          <td>
+            <span class="badge keluar">Keluar</span>
+          </td>
+          <td>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-hapus">Hapus</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Ruang A</td>
+          <td>Kursi</td>
+          <td>Furniture</td>
+          <td>20</td>
+          <td>Rusak</td>
+          <td>9/4/2026</td>
+          <td>Budi</td>
+          <td>
+            <span class="badge masuk">Masuk</span>
+          </td>
+          <td>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-hapus">Hapus</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Ruang A</td>
+          <td>Monitor LG</td>
+          <td>Elektronik</td>
+          <td>10</td>
+          <td>Baik</td>
+          <td>9/4/2026</td>
+          <td>Angga</td>
+          <td>
+            <span class="badge keluar">Keluar</span>
+          </td>
+          <td>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-hapus">Hapus</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Ruang B</td>
+          <td>Laptop Acer</td>
+          <td>Elektronik</td>
+          <td>5</td>
+          <td>Rusak</td>
+          <td>9/4/2026</td>
+          <td>Fani</td>
+          <td>
+            <span class="badge keluar">Keluar</span>
+          </td>
+          <td>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-hapus">Hapus</button>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
 </div>
 
 {% endblock %}

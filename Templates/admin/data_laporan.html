@@ -1,55 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'admin/base.html' %}
 {% block title %}Data Laporan{% endblock %}
 {% block content %}
 
-<div class="dashboard-container">
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <!-- LOGO -->
-        <div>
-            <div class="logo">
-                <i class="bi bi-box-seam"></i>
-                <h2>
-                    Inventaris <br>
-                    Barang
-                </h2>
-            </div>
-            <!-- MENU -->
-            <div class="menu">
-                <a href="/">
-                    <i class="bi bi-grid"></i>
-                    Dashboard
-                </a>
-                <a href="/data_barang">
-                    <i class="bi bi-box"></i>
-                    Data Barang
-                </a>
-                <a href="/data_kategori">
-                    <i class="bi bi-stars"></i>
-                    Kategori
-                </a>
-                <a href="/data_laporan" class="active">
-                    <i class="bi bi-table"></i>
-                    Laporan
-                </a>
-                <a href="/data_lokasi">
-                    <i class="bi bi-geo-alt"></i>
-                    Lokasi
-                </a>
-                <a href="/data_petugas">
-                    <i class="bi bi-person-workspace"></i>
-                    Petugas
-                </a>
-            </div>
-        </div>
-        <!-- ADMIN -->
-        <div class="admin-box">
-            <div class="admin-icon">
-                <i class="bi bi-person-fill"></i>
-            </div>
-            <h3>Admin</h3>
-        </div>
-    </div>
     <!-- CONTENT -->
     <div class="content-laporan">
         <!-- TITLE -->

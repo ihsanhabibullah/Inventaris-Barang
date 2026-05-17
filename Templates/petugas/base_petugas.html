@@ -1,109 +1,84 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Inventaris Barang</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f5f5f5;
-    }
-    .sidebar {
-      width: 220px;
-      height: 100vh;
-      background: #243caa;
-      color: white;
-      position: fixed;
-      padding: 20px;
-    }
-    .sidebar h4 {
-      font-weight: bold;
-    }
-    .sidebar .menu {
-      margin-top: 20px;
-    }
-    .sidebar .menu a {
-      display: block;
-      padding: 10px;
-      background: #3b82f6;
-      border-radius: 20px;
-      text-decoration: none;
-      color: white;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .main {
-      margin-left: 240px;
-      padding: 20px;
-    }
-    .header-box {
-      background: #2dd4bf;
-      border-radius: 30px;
-      text-align: center;
-      padding: 15px;
-      font-size: 32px;
-      font-weight: bold;
-      width: 350px;
-      margin-bottom: 20px;
-    }
-    .btn-add {
-      background: #3b82f6;
-      color: white;
-      border-radius: 10px;
-    }
-    .table thead {
-      background: #e5e7eb;
-    }
-    .badge-masuk {
-      background: green;
-    }
-    .badge-keluar {
-      background: red;
-    }
-    .btn-edit {
-      background: gold;
-    }
-    .btn-hapus {
-      background: red;
-      color: white;
-    }
-    .user {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-    }
-  </style>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-  <h4>
-    <!-- SVG Icon -->
-    <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
-      <path d="M3 3h18v18H3z"/>
-    </svg>
-    Inventaris Barang
-  </h4>
+<div class="dashboard-container">
 
-  <div class="menu">
-    <a href="/data_laporan_petugas">Dashboard</a>
-  </div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-  <div class="user">
-    <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 22c0-4 4-6 8-6s8 2 8 6"/>
-    </svg>
-    <div>Petugas</div>
-  </div>
-</div>
+        <div>
+
+            <!-- LOGO -->
+            <div class="logo">
+                <i class="bi bi-box-seam"></i>
+
+                <h2>
+                    Inventaris<br>
+                    Barang
+                </h2>
+            </div>
+
+            <!-- MENU -->
+            <div class="menu">
+
+                <a href="{{ url_for('dashboard_petugas') }}" class="active">
+                    <i class="bi bi-grid"></i>
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('data_laporan_petugas') }}">
+                    <i class="bi bi-table"></i>
+                    Data Laporan
+                </a>
+
+                <a href="{{ url_for('tambah_transaksi') }}">
+                    <i class="bi bi-plus-square"></i>
+                    Tambah Transaksi
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- ADMIN -->
+        <div class="admin-box">
+
+            <div class="admin-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+            <h3>Petugas</h3>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-laporan">
 
         {% block content %}
-        <!-- isi halaman -->
         {% endblock %}
 
+    </div>
+
+</div>
 
 </body>
 </html>

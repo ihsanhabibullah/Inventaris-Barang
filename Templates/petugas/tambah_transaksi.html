@@ -1,41 +1,52 @@
 {% extends 'petugas/base_petugas.html' %}
+
 {% block title %}Tambah Transaksi{% endblock %}
+
 {% block content %}
 
-<div class="container-box">
-  <h2>Tambah Transaksi</h2>
-  <div class="subtitle">Edit/update data transaksi</div>
-  <form>
-    <div class="mb-3">
+<div class="wrapper">
+
+  <div class="card">
+
+    <h1>Tambah Transaksi</h1>
+
+    <p class="subtitle">
+      Edit/update data transaksi
+    </p>
+
+    <form>
+
       <label>Barang</label>
-      <input type="text" class="form-control">
-    </div>
+      <input type="text" placeholder="Masukkan Barang">
 
-    <div class="mb-3">
       <label>Kategori</label>
-      <input type="text" class="form-control">
-    </div>
+      <input type="text" placeholder="Masukkan Kategori">
 
-    <div class="mb-3">
       <label>Lokasi</label>
-      <input type="text" class="form-control">
-    </div>
+      <input type="text" placeholder="Masukkan Lokasi">
 
-    <div class="mb-3">
       <label>Transaksi</label>
-      <input type="text" class="form-control">
-    </div>
+      <input type="text" placeholder="Masukkan Transaksi">
 
-    <div class="mb-3">
       <label>Jumlah</label>
-      <input type="text" class="form-control">
-    </div>
+      <input type="text" placeholder="Masukkan Jumlah">
 
-    <div class="btn-group-custom">
-      <button type="button" class="btn btn-batal">Batal</button>
-      <button type="submit" class="btn btn-simpan">Simpan</button>
-    </div>
-  </form>
+      <div class="actions">
+
+        <button type="button" class="btn">
+          Batal
+        </button>
+
+        <button type="submit" class="btn btn-primary">
+          Simpan
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
 
 </div>
+
 {% endblock %}

@@ -103,5 +103,9 @@ def data_laporan_petugas():
 def tambah_transaksi():
     return render_template('petugas/tambah_transaksi.html')
 
+@app.route('/dashboard_petugas')
+def dashboard_petugas():
+    return render_template('petugas/dashboard_petugas.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
