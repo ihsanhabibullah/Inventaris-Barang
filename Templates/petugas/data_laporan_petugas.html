@@ -3,125 +3,307 @@
 
 {% block content %}
 
-<!-- Main Content -->
-<div class="content">
+<style>
 
-  <!-- TITLE -->
-  <div class="title-box">
+/* ================= TITLE ================= */
+
+.title-box{
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #1e293b;
+
+    margin-bottom: 24px;
+}
+
+/* ================= TABLE WRAPPER ================= */
+
+.table-wrapper{
+
+    background: #ffffff;
+
+    border-radius: 22px;
+
+    padding: 22px;
+
+    border: 1px solid #edf2f7;
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,0.05);
+
+    overflow-x: auto;
+}
+
+/* ================= TABLE ================= */
+
+table{
+
+    width: 100%;
+
+    border-collapse: separate;
+
+    border-spacing: 0 12px;
+}
+
+/* ================= TABLE HEADER ================= */
+
+thead th{
+
+    background: #eef4ff;
+
+    color: #475569;
+
+    padding: 16px 18px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    border: none;
+
+    white-space: nowrap;
+}
+
+thead th:first-child{
+
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+
+thead th:last-child{
+
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+/* ================= TABLE BODY ================= */
+
+tbody tr{
+
+    background: #ffffff;
+
+    transition: .25s ease;
+}
+
+tbody tr:hover{
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,0.08);
+}
+
+tbody td{
+
+    padding: 18px;
+
+    background: white;
+
+    border-top: 1px solid #edf2f7;
+    border-bottom: 1px solid #edf2f7;
+
+    font-size: 14px;
+
+    color: #334155;
+
+    vertical-align: middle;
+}
+
+tbody td:first-child{
+
+    border-left: 1px solid #edf2f7;
+
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+
+tbody td:last-child{
+
+    border-right: 1px solid #edf2f7;
+
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+/* ================= AKSI ================= */
+
+.aksi{
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    white-space: nowrap;
+}
+
+/* ================= BUTTON ================= */
+
+.btn-edit{
+
+    border: none;
+
+    padding: 8px 14px;
+
+    border-radius: 10px;
+
+    background: #fff4cf;
+
+    color: #9b7000;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.btn-edit:hover{
+
+    background: #ffe7a0;
+}
+
+.btn-hapus{
+
+    border: none;
+
+    padding: 8px 14px;
+
+    border-radius: 10px;
+
+    background: #ffe4e4;
+
+    color: #d63031;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.btn-hapus:hover{
+
+    background: #ffcfcf;
+}
+
+/* ================= BADGE ================= */
+
+.badge{
+
+    padding: 7px 14px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.masuk{
+
+    background: #dcfff1;
+
+    color: #00a86b;
+}
+
+.keluar{
+
+    background: #ffe5e5;
+
+    color: #d63031;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width: 768px){
+
+    table{
+
+        min-width: 1100px;
+    }
+}
+
+</style>
+
+<!-- TITLE -->
+<div class="title-box">
     Data Laporan
-  </div>
+</div>
 
-  <!-- TABLE -->
-  <div class="table-wrapper">
+<!-- TABLE -->
+<div class="table-wrapper">
 
     <table>
 
-      <thead>
-        <tr>
-          <th>Lokasi</th>
-          <th>Nama Barang</th>
-          <th>Kategori</th>
-          <th>Stok</th>
-          <th>Kondisi</th>
-          <th>Tanggal</th>
-          <th>Nama Petugas</th>
-          <th>Transaksi</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
+        <thead>
+            <tr>
+                <th>Lokasi</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
+                <th>Stok</th>
+                <th>Kondisi</th>
+                <th>Tanggal</th>
+                <th>Nama Petugas</th>
+                <th>Transaksi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
 
-      <tbody>
+        <tbody>
 
-        <tr>
-          <td>Ruang A</td>
-          <td>Laptop Asus</td>
-          <td>Elektronik</td>
-          <td>15</td>
-          <td>Baik</td>
-          <td>9/4/2026</td>
-          <td>Andi</td>
-          <td>
-            <span class="badge masuk">Masuk</span>
-          </td>
-          <td>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-hapus">Hapus</button>
-          </td>
-        </tr>
+            <tr>
+                <td>Ruang A</td>
+                <td>Laptop Asus</td>
+                <td>Elektronik</td>
+                <td>15</td>
+                <td>Baik</td>
+                <td>9/4/2026</td>
+                <td>Andi</td>
 
-        <tr>
-          <td>Ruang B</td>
-          <td>Meja</td>
-          <td>Furniture</td>
-          <td>15</td>
-          <td>Baik</td>
-          <td>9/4/2026</td>
-          <td>Andi</td>
-          <td>
-            <span class="badge keluar">Keluar</span>
-          </td>
-          <td>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-hapus">Hapus</button>
-          </td>
-        </tr>
+                <td>
+                    <span class="badge masuk">
+                        Masuk
+                    </span>
+                </td>
 
-        <tr>
-          <td>Ruang A</td>
-          <td>Kursi</td>
-          <td>Furniture</td>
-          <td>20</td>
-          <td>Rusak</td>
-          <td>9/4/2026</td>
-          <td>Budi</td>
-          <td>
-            <span class="badge masuk">Masuk</span>
-          </td>
-          <td>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-hapus">Hapus</button>
-          </td>
-        </tr>
+                <td>
+                    <div class="aksi">
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-hapus">Hapus</button>
+                    </div>
+                </td>
+            </tr>
 
-        <tr>
-          <td>Ruang A</td>
-          <td>Monitor LG</td>
-          <td>Elektronik</td>
-          <td>10</td>
-          <td>Baik</td>
-          <td>9/4/2026</td>
-          <td>Angga</td>
-          <td>
-            <span class="badge keluar">Keluar</span>
-          </td>
-          <td>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-hapus">Hapus</button>
-          </td>
-        </tr>
+            <tr>
+                <td>Ruang B</td>
+                <td>Meja</td>
+                <td>Furniture</td>
+                <td>15</td>
+                <td>Baik</td>
+                <td>9/4/2026</td>
+                <td>Andi</td>
 
-        <tr>
-          <td>Ruang B</td>
-          <td>Laptop Acer</td>
-          <td>Elektronik</td>
-          <td>5</td>
-          <td>Rusak</td>
-          <td>9/4/2026</td>
-          <td>Fani</td>
-          <td>
-            <span class="badge keluar">Keluar</span>
-          </td>
-          <td>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-hapus">Hapus</button>
-          </td>
-        </tr>
+                <td>
+                    <span class="badge keluar">
+                        Keluar
+                    </span>
+                </td>
 
-      </tbody>
+                <td>
+                    <div class="aksi">
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-hapus">Hapus</button>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
 
     </table>
-
-  </div>
 
 </div>
 

@@ -1,103 +1,258 @@
 {% extends 'admin/base.html' %}
 {% block title %}Data Laporan{% endblock %}
+
 {% block content %}
 
-    <!-- CONTENT -->
-    <div class="content-laporan">
-        <!-- TITLE -->
-        <div class="title-box">
-            Data Laporan
+<style>
+
+/* ================= TABLE WRAPPER ================= */
+
+.table-wrapper{
+    overflow-x: auto;
+    border-radius: 18px;
+}
+
+/* ================= CUSTOM TABLE ================= */
+
+.custom-table{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px; /* jarak antar baris */
+}
+
+/* ================= HEADER TABLE ================= */
+
+.custom-table thead th{
+
+    background: #eef4ff;
+
+    color: #4b5563;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    padding: 16px 18px;
+
+    border: none;
+
+    white-space: nowrap;
+}
+
+/* Rounded Header */
+
+.custom-table thead th:first-child{
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+
+.custom-table thead th:last-child{
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+/* ================= BODY TABLE ================= */
+
+.custom-table tbody tr{
+
+    background: #ffffff;
+
+    transition: .25s ease;
+}
+
+.custom-table tbody tr:hover{
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 18px rgba(49,85,212,0.08);
+}
+
+/* ================= TABLE TD ================= */
+
+.custom-table tbody td{
+
+    padding: 18px;
+
+    border-top: 1px solid #edf2f7;
+    border-bottom: 1px solid #edf2f7;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    vertical-align: middle;
+
+    background: #fff;
+}
+
+/* Rounded Body */
+
+.custom-table tbody td:first-child{
+
+    border-left: 1px solid #edf2f7;
+
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+
+.custom-table tbody td:last-child{
+
+    border-right: 1px solid #edf2f7;
+
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+/* ================= BADGE ================= */
+
+.badge{
+
+    padding: 7px 14px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.masuk{
+
+    background: #dcfff1;
+
+    color: #00a86b;
+}
+
+.keluar{
+
+    background: #ffe5e5;
+
+    color: #d63031;
+}
+
+</style>
+
+<div class="table-box">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+        <div>
+            <h3 class="mb-1 fw-bold">Data Laporan</h3>
+
+            <p class="text-secondary mb-0">
+                Riwayat transaksi barang inventaris
+            </p>
         </div>
-        <!-- TABLE -->
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Lokasi</th>
-                        <th>Nama Barang</th>
-                        <th>Kategori</th>
-                        <th>Stok</th>
-                        <th>Kondisi</th>
-                        <th>Tanggal</th>
-                        <th>Nama Petugas</th>
-                        <th>Transaksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Ruang A</td>
-                        <td>Laptop Asus</td>
-                        <td>Elektronik</td>
-                        <td>15</td>
-                        <td>Baik</td>
-                        <td>9/4/2026</td>
-                        <td>Fani</td>
-                        <td>
-                            <span class="badge masuk">
-                                Masuk
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ruang B</td>
-                        <td>Meja</td>
-                        <td>Furniture</td>
-                        <td>15</td>
-                        <td>Baik</td>
-                        <td>9/4/2026</td>
-                        <td>Fani</td>
-                        <td>
-                            <span class="badge keluar">
-                                Keluar
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ruang A</td>
-                        <td>Kursi</td>
-                        <td>Furniture</td>
-                        <td>20</td>
-                        <td>Rusak</td>
-                        <td>9/4/2026</td>
-                        <td>Fani</td>
-                        <td>
-                            <span class="badge masuk">
-                                Masuk
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ruang A</td>
-                        <td>Monitor LG</td>
-                        <td>Elektronik</td>
-                        <td>10</td>
-                        <td>Baik</td>
-                        <td>9/4/2026</td>
-                        <td>Fani</td>
-                        <td>
-                            <span class="badge keluar">
-                                Keluar
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ruang B</td>
-                        <td>Laptop Acer</td>
-                        <td>Elektronik</td>
-                        <td>5</td>
-                        <td>Rusak</td>
-                        <td>9/4/2026</td>
-                        <td>Fani</td>
-                        <td>
-                            <span class="badge keluar">
-                                Keluar
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+
     </div>
+
+    <!-- TABLE -->
+    <div class="table-wrapper">
+
+        <table class="table custom-table align-middle mb-0">
+
+            <thead>
+                <tr>
+                    <th>Lokasi</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori</th>
+                    <th>Stok</th>
+                    <th>Kondisi</th>
+                    <th>Tanggal</th>
+                    <th>Nama Petugas</th>
+                    <th>Transaksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Ruang A</td>
+                    <td>Laptop Asus</td>
+                    <td>Elektronik</td>
+                    <td>15</td>
+                    <td>Baik</td>
+                    <td>9/4/2026</td>
+                    <td>Fani</td>
+
+                    <td>
+                        <span class="badge masuk">
+                            Masuk
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang B</td>
+                    <td>Meja</td>
+                    <td>Furniture</td>
+                    <td>15</td>
+                    <td>Baik</td>
+                    <td>9/4/2026</td>
+                    <td>Fani</td>
+
+                    <td>
+                        <span class="badge keluar">
+                            Keluar
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang A</td>
+                    <td>Kursi</td>
+                    <td>Furniture</td>
+                    <td>20</td>
+                    <td>Rusak</td>
+                    <td>9/4/2026</td>
+                    <td>Fani</td>
+
+                    <td>
+                        <span class="badge masuk">
+                            Masuk
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang A</td>
+                    <td>Monitor LG</td>
+                    <td>Elektronik</td>
+                    <td>10</td>
+                    <td>Baik</td>
+                    <td>9/4/2026</td>
+                    <td>Fani</td>
+
+                    <td>
+                        <span class="badge keluar">
+                            Keluar
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Ruang B</td>
+                    <td>Laptop Acer</td>
+                    <td>Elektronik</td>
+                    <td>5</td>
+                    <td>Rusak</td>
+                    <td>9/4/2026</td>
+                    <td>Fani</td>
+
+                    <td>
+                        <span class="badge keluar">
+                            Keluar
+                        </span>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
 
 {% endblock %}

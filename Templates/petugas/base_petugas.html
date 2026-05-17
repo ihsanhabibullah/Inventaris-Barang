@@ -15,68 +15,234 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
+    <style>
+
+        /* ================= ACTIVE MENU FIX ================= */
+
+        .menu a{
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu a.active{
+
+            background: rgba(255,255,255,0.14);
+
+            color: white;
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.03);
+
+            transform: scale(1.02);
+        }
+
+        .menu a.active i{
+            color: #7fd4ff;
+        }
+
+        /* GARIS ACTIVE TETAP */
+
+        .menu a.active::after{
+
+            content: '';
+
+            position: absolute;
+
+            left: 16px;
+            bottom: 8px;
+
+            width: calc(100% - 32px);
+
+            height: 2px;
+
+            background: #7fd4ff;
+
+            border-radius: 20px;
+        }
+
+        /* HOVER TIDAK MENGHILANGKAN ACTIVE */
+
+        .menu a:hover{
+
+            background: rgba(255,255,255,0.10);
+
+            color: white;
+
+            transform: scale(1.03);
+        }
+
+        /* ================= SIDEBAR BOTTOM ================= */
+
+        .admin{
+
+            background: rgba(255,255,255,0.10);
+
+            border-radius: 18px;
+
+            padding: 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: white;
+
+            backdrop-filter: blur(10px);
+
+            margin-top: 20px;
+        }
+
+        .admin-icon{
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.16);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 18px;
+
+            flex-shrink: 0;
+        }
+
+        /* ================= CONTENT FIX ================= */
+
+        .content{
+
+            margin-left: 265px;
+
+            width: calc(100% - 265px);
+
+            padding: 30px;
+        }
+
+        @media(max-width:992px){
+
+            .content{
+
+                margin-left: 220px;
+
+                width: calc(100% - 220px);
+            }
+        }
+
+        @media(max-width:768px){
+
+            .sidebar{
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+            }
+
+            .content{
+
+                margin-left: 0;
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
 </head>
+
 <body>
 
 <div class="dashboard-container">
 
     <!-- SIDEBAR -->
-    <div class="sidebar">
+    <aside class="sidebar">
 
+        <!-- TOP -->
         <div>
 
             <!-- LOGO -->
             <div class="logo">
+
                 <i class="bi bi-box-seam"></i>
 
                 <h2>
                     Inventaris<br>
                     Barang
                 </h2>
+
             </div>
 
             <!-- MENU -->
-            <div class="menu">
+            <nav class="menu">
 
-                <a href="{{url_for('dashboard_petugas')}}" class="active">
+                <a href="{{url_for('dashboard_petugas')}}"
+                   class="{% if request.endpoint == 'dashboard_petugas' %}active{% endif %}">
+
                     <i class="bi bi-grid"></i>
                     Dashboard
+
                 </a>
 
-                <a href="{{ url_for('data_laporan_petugas') }}">
+                <a href="{{ url_for('data_laporan_petugas') }}"
+                   class="{% if request.endpoint == 'data_laporan_petugas' %}active{% endif %}">
+
                     <i class="bi bi-table"></i>
                     Data Laporan
+
                 </a>
 
-                <a href="{{ url_for('tambah_transaksi') }}">
+                <a href="{{ url_for('tambah_transaksi') }}"
+                   class="{% if request.endpoint == 'tambah_transaksi' %}active{% endif %}">
+
                     <i class="bi bi-plus-square"></i>
                     Tambah Transaksi
+
                 </a>
 
-            </div>
+            </nav>
 
         </div>
 
-        <!-- ADMIN -->
-        <div class="admin-box">
+        <!-- BOTTOM USER -->
+        <div class="admin">
 
             <div class="admin-icon">
+
                 <i class="bi bi-person-fill"></i>
+
             </div>
 
-            <h3>Petugas</h3>
+            <div>
+
+                <div style="font-size:13px; opacity:.7;">
+                    Login Sebagai
+                </div>
+
+                <div style="font-weight:600;">
+                    Petugas
+                </div>
+
+            </div>
 
         </div>
 
-    </div>
+    </aside>
 
     <!-- CONTENT -->
-    <div class="content-laporan">
+    <main class="content">
 
         {% block content %}
         {% endblock %}
 
-    </div>
+    </main>
 
 </div>
 

@@ -4,48 +4,309 @@
 
 {% block content %}
 
+<style>
+
+/* ================= WRAPPER ================= */
+
+.wrapper{
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    padding: 10px 0 30px;
+}
+
+/* ================= CARD ================= */
+
+.card{
+
+    width: 100%;
+    max-width: 760px;
+
+    background: rgba(255,255,255,0.96);
+
+    border-radius: 26px;
+
+    padding: 34px;
+
+    border: 1px solid #edf2f7;
+
+    box-shadow:
+        0 10px 30px rgba(37,99,235,0.06);
+}
+
+/* ================= TITLE ================= */
+
+.card h1{
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: #0f172a;
+
+    margin-bottom: 6px;
+}
+
+.subtitle{
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin-bottom: 28px;
+}
+
+/* ================= FORM ================= */
+
+form{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+/* ================= INPUT GROUP ================= */
+
+.form-group{
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.form-group label{
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #334155;
+
+    margin-bottom: 8px;
+}
+
+/* ================= INPUT ================= */
+
+.form-group input,
+.form-group select{
+
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    border: 1px solid #dbe4f0;
+
+    background: #ffffff;
+
+    font-size: 14px;
+
+    color: #1e293b;
+
+    transition: .3s ease;
+
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color: #3b82f6;
+
+    box-shadow:
+        0 0 0 4px rgba(59,130,246,0.10);
+}
+
+/* ================= ROW ================= */
+
+.form-row{
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+}
+
+/* ================= BUTTON ================= */
+
+.actions{
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 12px;
+}
+
+.btn{
+
+    border: none;
+
+    padding: 12px 20px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s ease;
+}
+
+/* BATAL */
+
+.btn-secondary{
+
+    background: #eef2f7;
+
+    color: #475569;
+}
+
+.btn-secondary:hover{
+
+    background: #dfe7f1;
+
+    transform: translateY(-2px);
+}
+
+/* SIMPAN */
+
+.btn-primary{
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #2563eb
+        );
+
+    color: white;
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,0.18);
+}
+
+.btn-primary:hover{
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 24px rgba(37,99,235,0.24);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+    .card{
+
+        padding: 24px;
+    }
+
+    .form-row{
+
+        grid-template-columns: 1fr;
+    }
+
+    .actions{
+
+        flex-direction: column;
+    }
+
+    .btn{
+
+        width: 100%;
+    }
+}
+
+</style>
+
 <div class="wrapper">
 
-  <div class="card">
+    <div class="card">
 
-    <h1>Tambah Transaksi</h1>
+        <h1>Tambah Transaksi</h1>
 
-    <p class="subtitle">
-      Edit/update data transaksi
-    </p>
+        <p class="subtitle">
+            Edit/update data transaksi
+        </p>
 
-    <form>
+        <form>
 
-      <label>Barang</label>
-      <input type="text" placeholder="Masukkan Barang">
+            <div class="form-group">
+                <label>Barang</label>
 
-      <label>Kategori</label>
-      <input type="text" placeholder="Masukkan Kategori">
+                <input
+                    type="text"
+                    placeholder="Masukkan Barang"
+                >
+            </div>
 
-      <label>Lokasi</label>
-      <input type="text" placeholder="Masukkan Lokasi">
+            <div class="form-row">
 
-      <label>Transaksi</label>
-      <input type="text" placeholder="Masukkan Transaksi">
+                <div class="form-group">
+                    <label>Kategori</label>
 
-      <label>Jumlah</label>
-      <input type="text" placeholder="Masukkan Jumlah">
+                    <input
+                        type="text"
+                        placeholder="Masukkan Kategori"
+                    >
+                </div>
 
-      <div class="actions">
+                <div class="form-group">
+                    <label>Lokasi</label>
 
-        <button type="button" class="btn">
-          Batal
-        </button>
+                    <input
+                        type="text"
+                        placeholder="Masukkan Lokasi"
+                    >
+                </div>
 
-        <button type="submit" class="btn btn-primary">
-          Simpan
-        </button>
+            </div>
 
-      </div>
+            <div class="form-group">
+                <label>Transaksi</label>
 
-    </form>
+                <select>
+                    <option>Pilih Transaksi</option>
+                    <option>Masuk</option>
+                    <option>Keluar</option>
+                </select>
+            </div>
 
-  </div>
+            <div class="actions">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
 

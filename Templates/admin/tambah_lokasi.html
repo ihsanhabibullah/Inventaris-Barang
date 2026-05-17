@@ -4,19 +4,84 @@
 
 {% block content %}
 
-  <div class="container">
-    <div class="title">Tambah Data Lokasi</div>
-    <div class="subtitle">Isi Data Lokasi</div>
+<div class="content-data_barang">
 
-    <div class="form-group">
-      <label>Nama Lokasi</label>
-      <input type="text" />
+    <div class="card">
+
+        <!-- HEADER -->
+        <div class="mb-4">
+
+            <h1>Tambah Data Lokasi</h1>
+
+            <p class="subtitle">
+                Isi Data Lokasi
+            </p>
+
+        </div>
+
+        <!-- FLASH MESSAGE -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+        {% endwith %}
+
+        <!-- FORM -->
+        <form method="POST"
+              action="{{ url_for('tambah_lokasi') }}">
+
+            <!-- NAMA LOKASI -->
+            <label>Nama Lokasi</label>
+
+            <input 
+                type="text"
+                name="nama_lokasi"
+                placeholder="Masukkan nama lokasi"
+                required
+            >
+
+            <!-- BUTTON -->
+            <div class="actions">
+
+                <a href="{{ url_for('data_lokasi') }}">
+
+                    <button 
+                        type="button" 
+                        class="btn"
+                    >
+                        Batal
+                    </button>
+
+                </a>
+
+                <button 
+                    type="submit" 
+                    class="btn btn-primary"
+                >
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
 
-    <div class="button-group">
-      <button class="btn btn-cancel">Batal</button>
-      <button class="btn btn-save">Simpan</button>
-    </div>
-  </div>
+</div>
 
-{% endblock%}
+{% endblock %}

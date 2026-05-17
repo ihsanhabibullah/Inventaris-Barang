@@ -1,22 +1,66 @@
 {% extends 'admin/base.html' %}
 
-{% block title %}TambahKategori{% endblock %}
+{% block title %}Tambah Kategori{% endblock %}
 
 {% block content %}
 
-<div class="container-box">
-  <h3>Tambah Kategori</h3>
-  <div class="subtitle">Isi Data Kategori</div>
+<div class="content-data_barang">
 
-  <div class="mb-3">
-    <label>Nama Kategori</label>
-    <input type="text" class="form-control">
-  </div>
+    <div class="card">
 
-  <div class="btn-group-custom">
-    <button class="btn-batal">Batal</button>
-    <button class="btn-simpan">Simpan</button>
-  </div>
+        <!-- HEADER -->
+        <div class="mb-4">
+
+            <h1>Tambah Kategori</h1>
+
+            <p class="subtitle">
+                Isi Data Kategori
+            </p>
+
+        </div>
+
+        <!-- FORM -->
+        <form 
+            action="{{ url_for('tambah_kategori') }}"
+            method="POST"
+        >
+
+            <label>Nama Kategori</label>
+
+            <input 
+                type="text"
+                name="nama_kategori"
+                placeholder="Masukkan nama kategori"
+                required
+            >
+
+            <!-- BUTTON -->
+            <div class="actions">
+
+                <a href="{{ url_for('data_kategori') }}">
+
+                    <button 
+                        type="button"
+                        class="btn"
+                    >
+                        Batal
+                    </button>
+
+                </a>
+
+                <button 
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
-{% endblock%}
+{% endblock %}

@@ -1,24 +1,67 @@
 {% extends 'admin/base.html' %}
 
-{% block title %}edit data lokasi{% endblock %}
+{% block title %}Edit Data Lokasi{% endblock %}
 
 {% block content %}
 
-  <div class="wrapper">
+<div class="content-data_barang">
+
     <div class="card">
-      <h1>Edit Data Lokasi</h1>
-      <div class="subtitle">Isi Data Lokasi</div>
 
-      <form>
-        <label>Nama Lokasi</label>
-        <input type="text" />
+        <!-- HEADER -->
+        <div class="mb-4">
 
-        <div class="actions">
-          <button type="button" class="btn">Batal</button>
-          <button type="submit" class="btn btn-primary">Simpan</button>
+            <h1>Edit Data Lokasi</h1>
+
+            <p class="subtitle">
+                Ubah data lokasi inventaris
+            </p>
+
         </div>
-      </form>
-    </div>
-  </div>
 
-{% endblock%}
+        <!-- FORM -->
+        <form 
+            action="{{ url_for('update_lokasi', id=lokasi.id_lokasi) }}"
+            method="POST"
+        >
+
+            <label>Nama Lokasi</label>
+
+            <input 
+                type="text"
+                name="nama_lokasi"
+                value="{{ lokasi.nama_lokasi }}"
+                placeholder="Masukkan nama lokasi"
+                required
+            >
+
+            <!-- BUTTON -->
+            <div class="actions">
+
+                <a href="{{ url_for('data_lokasi') }}">
+
+                    <button 
+                        type="button"
+                        class="btn"
+                    >
+                        Batal
+                    </button>
+
+                </a>
+
+                <button 
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

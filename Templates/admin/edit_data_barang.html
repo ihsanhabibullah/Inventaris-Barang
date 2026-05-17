@@ -4,26 +4,315 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="title">Edit Data Barang</div>
-    <div class="subtitle">Edit/update data barang</div>
+<style>
 
-    <label>Nama Barang</label>
-    <input type="text">
+/* ================= WRAPPER ================= */
 
-    <label>Kategori</label>
-    <input type="text">
+.content-data_barang{
 
-    <label>Lokasi</label>
-    <input type="text">
+    width: 100%;
+}
 
-    <label>Kondisi</label>
-    <input type="text">
+/* ================= CARD ================= */
 
-    <div class="button-group">
-        <button class="btn btn-cancel">Batal</button>
-        <button class="btn btn-save">Simpan</button>
+.card{
+
+    background: white;
+
+    border-radius: 24px;
+
+    padding: 35px;
+
+    box-shadow: 0 4px 20px rgba(15,23,42,.06);
+
+    max-width: 850px;
+}
+
+/* ================= TITLE ================= */
+
+.card h1{
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: #0f172a;
+
+    margin-bottom: 8px;
+}
+
+.subtitle{
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin-bottom: 30px;
+}
+
+/* ================= FORM ================= */
+
+form{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+label{
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #334155;
+
+    margin-bottom: -10px;
+}
+
+input,
+select{
+
+    width: 100%;
+
+    height: 52px;
+
+    border: 1px solid #dbe2ea;
+
+    border-radius: 14px;
+
+    padding: 0 16px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: .3s;
+
+    background: #fff;
+}
+
+input:focus,
+select:focus{
+
+    border-color: #3b82f6;
+
+    box-shadow: 0 0 0 4px rgba(59,130,246,.12);
+}
+
+/* ================= BUTTON ================= */
+
+.actions{
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 14px;
+
+    margin-top: 15px;
+}
+
+.btn{
+
+    border: none;
+
+    height: 48px;
+
+    padding: 0 24px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.btn:hover{
+
+    transform: translateY(-2px);
+}
+
+.btn-secondary{
+
+    background: #e2e8f0;
+
+    color: #334155;
+}
+
+.btn-primary{
+
+    background: linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color: white;
+
+    box-shadow: 0 8px 18px rgba(37,99,235,.22);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+    .card{
+
+        padding: 25px;
+    }
+
+    .actions{
+
+        flex-direction: column;
+    }
+
+    .btn{
+
+        width: 100%;
+    }
+}
+
+</style>
+
+<div class="content-data_barang">
+
+    <div class="card">
+
+        <!-- HEADER -->
+
+        <h1>Edit Data Barang</h1>
+
+        <p class="subtitle">
+            Edit dan update data barang inventaris
+        </p>
+
+        <!-- FORM -->
+
+        <form 
+            method="POST"
+            action="{{ url_for('update_barang', id=barang.id_barang) }}"
+        >
+
+            <!-- NOMOR BARANG -->
+
+            <label>Nomor Barang</label>
+
+            <input 
+                type="text"
+                name="nomor_barang"
+                value="{{ barang.nomor_barang }}"
+                placeholder="Masukkan nomor barang"
+                required
+            >
+
+            <!-- NAMA BARANG -->
+
+            <label>Nama Barang</label>
+
+            <input 
+                type="text"
+                name="nama_barang"
+                value="{{ barang.nama_barang }}"
+                placeholder="Masukkan nama barang"
+                required
+            >
+
+            <!-- KATEGORI -->
+
+            <label>Kategori</label>
+
+            <select name="id_kategori" required>
+
+                {% for k in kategori %}
+
+                <option 
+                    value="{{ k.id_kategori }}"
+                    {% if barang.id_kategori == k.id_kategori %}
+                        selected
+                    {% endif %}
+                >
+                    {{ k.nama_kategori }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <!-- LOKASI -->
+
+            <label>Lokasi</label>
+
+            <select name="id_lokasi" required>
+
+                {% for l in lokasi %}
+
+                <option 
+                    value="{{ l.id_lokasi }}"
+                    {% if barang.id_lokasi == l.id_lokasi %}
+                        selected
+                    {% endif %}
+                >
+                    {{ l.nama_lokasi }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <!-- KONDISI -->
+
+            <label>Kondisi Barang</label>
+
+            <select name="kondisi_barang" required>
+
+                <option 
+                    value="Baik"
+                    {% if barang.kondisi_barang == 'Baik' %}
+                        selected
+                    {% endif %}
+                >
+                    Baik
+                </option>
+
+                <option 
+                    value="Rusak"
+                    {% if barang.kondisi_barang == 'Rusak' %}
+                        selected
+                    {% endif %}
+                >
+                    Rusak
+                </option>
+
+            </select>
+
+            <!-- BUTTON -->
+
+            <div class="actions">
+
+                <button 
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="window.history.back()"
+                >
+                    Batal
+                </button>
+
+                <button 
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Simpan Perubahan
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
+
 </div>
 
 {% endblock %}

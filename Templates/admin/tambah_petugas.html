@@ -1,25 +1,284 @@
-<!-- {% extends 'admin/base.html' %} -->
+{% extends 'admin/base.html' %}
 
-{% block title %}Tambah Data Petugas{% endblock %}
+{% block title %}Tambah Petugas{% endblock %}
 
 {% block content %}
 
-  <div class="container">
-    <h1>Tambah Data Petugas</h1>
-    <div class="subtitle">Isi data Petugas</div>
+<style>
 
-    <form>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;.                                                                                
-      <label>Nama Petugas</label>
-      <input type="text" />
+/* ================= WRAPPER ================= */
 
-      <label>Lokasi</label>
-      <input type="text" />
+.content-data_petugas{
 
-      <div class="actions">
-        <button type="button" class="btn">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-      </div>
-    </form>
-  </div>
+    width: 100%;
+}
 
-  {% endblock%}
+/* ================= CARD ================= */
+
+.card{
+
+    background: white;
+
+    border-radius: 24px;
+
+    padding: 35px;
+
+    box-shadow: 0 4px 20px rgba(15,23,42,.06);
+
+    max-width: 720px;
+}
+
+/* ================= HEADER ================= */
+
+.card h1{
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: #0f172a;
+
+    margin-bottom: 6px;
+}
+
+.subtitle{
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin-bottom: 28px;
+}
+
+/* ================= FORM ================= */
+
+form{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+label{
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #334155;
+
+    margin-bottom: -10px;
+}
+
+input,
+select{
+
+    width: 100%;
+
+    height: 52px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    padding: 0 16px;
+
+    font-size: 14px;
+
+    background: #fff;
+
+    outline: none;
+
+    transition: .3s;
+}
+
+input:focus,
+select:focus{
+
+    border-color: #3b82f6;
+
+    box-shadow: 0 0 0 4px rgba(59,130,246,.12);
+}
+
+/* ================= BUTTON ================= */
+
+.actions{
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 14px;
+
+    margin-top: 10px;
+}
+
+.btn{
+
+    border: none;
+
+    height: 48px;
+
+    padding: 0 22px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.btn:hover{
+
+    transform: translateY(-2px);
+}
+
+.btn-cancel{
+
+    background: #e2e8f0;
+
+    color: #475569;
+}
+
+.btn-primary{
+
+    background: linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color: white;
+
+    box-shadow: 0 8px 18px rgba(37,99,235,.18);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+    .card{
+
+        padding: 25px;
+    }
+
+    .actions{
+
+        flex-direction: column;
+    }
+
+    .btn{
+
+        width: 100%;
+    }
+}
+
+</style>
+
+<div class="content-data_petugas">
+
+    <div class="card">
+
+        <!-- HEADER -->
+        <h1>Tambah Petugas</h1>
+
+        <p class="subtitle">
+            Isi data petugas inventaris
+        </p>
+
+        <!-- FLASH MESSAGE -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+                {% for message in messages %}
+
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                    {{ message }}
+
+                    <button 
+                        type="button" 
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+                {% endfor %}
+
+            {% endif %}
+        {% endwith %}
+
+        <!-- FORM -->
+        <form method="POST" action="{{ url_for('tambah_petugas') }}">
+
+            <!-- USERNAME -->
+            <label>Username</label>
+
+            <input 
+                type="text"
+                name="username"
+                placeholder="Masukkan username petugas"
+                required
+            >
+
+            <!-- PASSWORD -->
+            <label>Password</label>
+
+            <input 
+                type="password"
+                name="password"
+                placeholder="Masukkan password"
+                required
+            >
+
+            <!-- LOKASI -->
+            <label>Lokasi</label>
+
+            <select name="id_lokasi" required>
+
+                <option value="">
+                    -- Pilih Lokasi --
+                </option>
+
+                {% for l in lokasi %}
+
+                <option value="{{ l.id_lokasi }}">
+
+                    {{ l.nama_lokasi }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <!-- BUTTON -->
+            <div class="actions">
+
+                <button 
+                    type="button"
+                    class="btn btn-cancel"
+                    onclick="window.history.back()"
+                >
+                    Batal
+                </button>
+
+                <button 
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

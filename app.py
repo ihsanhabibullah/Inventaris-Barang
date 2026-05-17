@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_mysqldb import MySQL
 from functools import wraps
 from secrets import token_hex
-from datetime import datetime
 
 app = Flask(__name__)
 
@@ -18,6 +17,26 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
 
+# ================= LOGIN REQUIRED ================= #
+
+def login_required(f):
+
+    @wraps(f)
+    def wrap(*args, **kwargs):
+
+        if 'admin' not in session:
+            return redirect(url_for('login_admin'))
+
+        return f(*args, **kwargs)
+
+    return wrap
+
+# ================= INDEX ================= #
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 # ================= SEEDER ADMIN ================= #
 
 @app.route('/seeder_admin')
@@ -25,7 +44,6 @@ def seeder_admin():
 
     cur = mysql.connection.cursor()
 
-    # cek apakah admin sudah ada
     cur.execute(
         "SELECT * FROM admin WHERE username=%s",
         ('admin',)
@@ -39,7 +57,6 @@ def seeder_admin():
 
         return 'Admin sudah ada'
 
-    # insert admin default
     cur.execute("""
         INSERT INTO admin
         (
@@ -57,26 +74,6 @@ def seeder_admin():
     cur.close()
 
     return 'Seeder admin berhasil dibuat'
-
-
-# ================= LOGIN REQUIRED ================= #
-
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-
-        if 'admin' not in session:
-            return redirect(url_for('login_admin'))
-
-        return f(*args, **kwargs)
-
-    return wrap
-
-# ================= INDEX ================= #
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 # ================= LOGIN ADMIN ================= #
 
@@ -101,7 +98,6 @@ def login_admin():
 
         if admin:
 
-            # sementara plain password dulu
             if password == admin['password']:
 
                 session['admin'] = admin['id_admin']
@@ -179,30 +175,26 @@ def dashboard_admin():
 
     cur = mysql.connection.cursor()
 
-    # total barang
-    cur.execute("SELECT COUNT(*) as total FROM barang")
-    total_barang = cur.fetchone()
+    cur.execute("""
+        SELECT 
+            barang.id_barang,
+            barang.nomor_barang,
+            barang.nama_barang,
+            barang.kondisi_barang,
+            transaksi.tanggal,
+            transaksi.tipe
+        FROM transaksi
+        JOIN barang ON transaksi.id_barang = barang.id_barang
+        ORDER BY transaksi.tanggal DESC
+    """)
 
-    # total kategori
-    cur.execute("SELECT COUNT(*) as total FROM kategori")
-    total_kategori = cur.fetchone()
-
-    # total petugas
-    cur.execute("SELECT COUNT(*) as total FROM petugas")
-    total_petugas = cur.fetchone()
-
-    # total transaksi
-    cur.execute("SELECT COUNT(*) as total FROM transaksi")
-    total_transaksi = cur.fetchone()
+    laporan_gudang = cur.fetchall()
 
     cur.close()
 
     return render_template(
         'admin/dashboard_admin.html',
-        total_barang=total_barang,
-        total_kategori=total_kategori,
-        total_petugas=total_petugas,
-        total_transaksi=total_transaksi
+        laporan_gudang=laporan_gudang
     )
 
 # ================= DATA BARANG ================= #
@@ -219,8 +211,10 @@ def data_barang():
             kategori.nama_kategori,
             lokasi.nama_lokasi
         FROM barang
-        JOIN kategori ON barang.id_kategori = kategori.id_kategori
-        JOIN lokasi ON barang.id_lokasi = lokasi.id_lokasi
+        JOIN kategori
+        ON barang.id_kategori = kategori.id_kategori
+        JOIN lokasi
+        ON barang.id_lokasi = lokasi.id_lokasi
         ORDER BY barang.id_barang DESC
     """)
 
@@ -241,11 +235,9 @@ def tambah_barang():
 
     cur = mysql.connection.cursor()
 
-    # ambil kategori
     cur.execute("SELECT * FROM kategori")
     kategori = cur.fetchall()
 
-    # ambil lokasi
     cur.execute("SELECT * FROM lokasi")
     lokasi = cur.fetchall()
 
@@ -253,9 +245,7 @@ def tambah_barang():
 
         nomor_barang = request.form['nomor_barang']
         nama_barang = request.form['nama_barang']
-        merk = request.form['merk']
-        tahun = request.form['tahun']
-        kondisi = request.form['kondisi']
+        kondisi_barang = request.form['kondisi_barang']
         id_kategori = request.form['id_kategori']
         id_lokasi = request.form['id_lokasi']
 
@@ -264,19 +254,15 @@ def tambah_barang():
             (
                 nomor_barang,
                 nama_barang,
-                merk,
-                tahun,
-                kondisi,
+                kondisi_barang,
                 id_kategori,
                 id_lokasi
             )
-            VALUES (%s,%s,%s,%s,%s,%s,%s)
+            VALUES (%s,%s,%s,%s,%s)
         """, (
             nomor_barang,
             nama_barang,
-            merk,
-            tahun,
-            kondisi,
+            kondisi_barang,
             id_kategori,
             id_lokasi
         ))
@@ -331,9 +317,7 @@ def update_barang(id):
 
     nomor_barang = request.form['nomor_barang']
     nama_barang = request.form['nama_barang']
-    merk = request.form['merk']
-    tahun = request.form['tahun']
-    kondisi = request.form['kondisi']
+    kondisi_barang = request.form['kondisi_barang']
     id_kategori = request.form['id_kategori']
     id_lokasi = request.form['id_lokasi']
 
@@ -344,18 +328,14 @@ def update_barang(id):
         SET
             nomor_barang=%s,
             nama_barang=%s,
-            merk=%s,
-            tahun=%s,
-            kondisi=%s,
+            kondisi_barang=%s,
             id_kategori=%s,
             id_lokasi=%s
         WHERE id_barang=%s
     """, (
         nomor_barang,
         nama_barang,
-        merk,
-        tahun,
-        kondisi,
+        kondisi_barang,
         id_kategori,
         id_lokasi,
         id
@@ -573,6 +553,55 @@ def hapus_lokasi(id):
 
     return redirect(url_for('data_lokasi'))
 
+# ================= EDIT LOKASI ================= #
+
+@app.route('/edit_lokasi/<int:id>')
+@login_required
+def edit_lokasi(id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute(
+        "SELECT * FROM lokasi WHERE id_lokasi=%s",
+        (id,)
+    )
+
+    lokasi = cur.fetchone()
+
+    cur.close()
+
+    return render_template(
+        'admin/edit_data_lokasi.html',
+        lokasi=lokasi
+    )
+
+# ================= UPDATE LOKASI ================= #
+
+@app.route('/update_lokasi/<int:id>', methods=['POST'])
+@login_required
+def update_lokasi(id):
+
+    nama_lokasi = request.form['nama_lokasi']
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        UPDATE lokasi
+        SET nama_lokasi=%s
+        WHERE id_lokasi=%s
+    """, (
+        nama_lokasi,
+        id
+    ))
+
+    mysql.connection.commit()
+
+    cur.close()
+
+    flash('Lokasi berhasil diupdate')
+
+    return redirect(url_for('data_lokasi'))
+
 # ================= DATA PETUGAS ================= #
 
 @app.route('/data_petugas')
@@ -583,10 +612,14 @@ def data_petugas():
 
     cur.execute("""
         SELECT 
-            petugas.*,
-            lokasi.nama_lokasi
-        FROM petugas
-        JOIN lokasi ON petugas.id_lokasi = lokasi.id_lokasi
+            p.id_petugas,
+            p.username,
+            p.id_lokasi,
+            l.nama_lokasi
+        FROM petugas p
+        JOIN lokasi l 
+        ON p.id_lokasi = l.id_lokasi
+        ORDER BY p.id_petugas DESC
     """)
 
     petugas = cur.fetchall()
@@ -598,6 +631,7 @@ def data_petugas():
         petugas=petugas
     )
 
+
 # ================= TAMBAH PETUGAS ================= #
 
 @app.route('/tambah_data_petugas', methods=['GET', 'POST'])
@@ -607,12 +641,10 @@ def tambah_petugas():
     cur = mysql.connection.cursor()
 
     cur.execute("SELECT * FROM lokasi")
-
     lokasi = cur.fetchall()
 
     if request.method == 'POST':
 
-        nama_petugas = request.form['nama_petugas']
         username = request.form['username']
         password = request.form['password']
         id_lokasi = request.form['id_lokasi']
@@ -620,20 +652,20 @@ def tambah_petugas():
         cur.execute("""
             INSERT INTO petugas
             (
-                nama_petugas,
                 username,
                 password,
                 id_lokasi
             )
-            VALUES (%s,%s,%s,%s)
+            VALUES (%s,%s,%s)
         """, (
-            nama_petugas,
             username,
             password,
             id_lokasi
         ))
 
         mysql.connection.commit()
+
+        cur.close()
 
         flash('Petugas berhasil ditambahkan')
 
@@ -644,23 +676,328 @@ def tambah_petugas():
         lokasi=lokasi
     )
 
+
+# ================= EDIT PETUGAS ================= #
+
+@app.route('/edit_petugas/<int:id>')
+@login_required
+def edit_petugas(id):
+
+    cur = mysql.connection.cursor()
+
+    # ambil data petugas
+    cur.execute(
+        "SELECT * FROM petugas WHERE id_petugas=%s",
+        (id,)
+    )
+    petugas = cur.fetchone()
+
+    # ambil lokasi
+    cur.execute("SELECT * FROM lokasi")
+    lokasi = cur.fetchall()
+
+    cur.close()
+
+    return render_template(
+        'admin/edit_data_petugas.html',
+        petugas=petugas,
+        lokasi=lokasi
+    )
+
+
+# ================= UPDATE PETUGAS ================= #
+
+@app.route('/update_petugas/<int:id>', methods=['POST'])
+@login_required
+def update_petugas(id):
+
+    username = request.form['username']
+    password = request.form['password']
+    id_lokasi = request.form['id_lokasi']
+
+    cur = mysql.connection.cursor()
+
+    # jika password diisi → update semua
+    if password:
+        cur.execute("""
+            UPDATE petugas
+            SET 
+                username=%s,
+                password=%s,
+                id_lokasi=%s
+            WHERE id_petugas=%s
+        """, (
+            username,
+            password,
+            id_lokasi,
+            id
+        ))
+    else:
+        # kalau password kosong → jangan update password
+        cur.execute("""
+            UPDATE petugas
+            SET 
+                username=%s,
+                id_lokasi=%s
+            WHERE id_petugas=%s
+        """, (
+            username,
+            id_lokasi,
+            id
+        ))
+
+    mysql.connection.commit()
+
+    cur.close()
+
+    flash('Petugas berhasil diupdate')
+
+    return redirect(url_for('data_petugas'))
+
+
+# ================= HAPUS PETUGAS ================= #
+
+@app.route('/hapus_petugas/<int:id>')
+@login_required
+def hapus_petugas(id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute(
+        "DELETE FROM petugas WHERE id_petugas=%s",
+        (id,)
+    )
+
+    mysql.connection.commit()
+
+    cur.close()
+
+    flash('Petugas berhasil dihapus')
+
+    return redirect(url_for('data_petugas'))
+
+# ================= DATA LAPORAN ================= #
+
+@app.route('/data_laporan')
+@login_required
+def data_laporan():
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            transaksi.id_transaksi,
+            barang.nama_barang,
+            barang.nomor_barang,
+            barang.kondisi_barang,
+            kategori.nama_kategori,
+            lokasi.nama_lokasi,
+            transaksi.tipe,
+            transaksi.tanggal
+        FROM transaksi
+        JOIN barang
+        ON transaksi.id_barang = barang.id_barang
+        JOIN kategori
+        ON barang.id_kategori = kategori.id_kategori
+        JOIN lokasi
+        ON barang.id_lokasi = lokasi.id_lokasi
+        ORDER BY transaksi.id_transaksi DESC
+    """)
+
+    laporan = cur.fetchall()
+
+    cur.close()
+
+    return render_template(
+        'admin/data_laporan.html',
+        laporan=laporan
+    )
+
 # ================= DASHBOARD PETUGAS ================= #
 
 @app.route('/dashboard_petugas')
 def dashboard_petugas():
-    return render_template('petugas/dashboard_petugas.html')
 
-# ================= LAPORAN PETUGAS ================= #
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        SELECT
+            barang.id_barang,
+            barang.nomor_barang,
+            barang.nama_barang,
+            barang.kondisi_barang,
+            transaksi.tanggal,
+            transaksi.tipe
+        FROM transaksi
+        JOIN barang
+        ON transaksi.id_barang = barang.id_barang
+        ORDER BY transaksi.tanggal DESC
+    """)
+
+    laporan_gudang = cur.fetchall()
+
+    cur.close()
+
+    return render_template(
+        'petugas/dashboard_petugas.html',
+        laporan_gudang=laporan_gudang
+    )
+
+# ================= DATA LAPORAN PETUGAS ================= #
 
 @app.route('/data_laporan_petugas')
 def data_laporan_petugas():
-    return render_template('petugas/data_laporan_petugas.html')
 
-# ================= TRANSAKSI ================= #
+    cur = mysql.connection.cursor()
 
-@app.route('/tambah_transaksi')
+    cur.execute("""
+        SELECT
+            transaksi.id_transaksi,
+            barang.nama_barang,
+            barang.nomor_barang,
+            barang.kondisi_barang,
+            kategori.nama_kategori,
+            lokasi.nama_lokasi,
+            transaksi.tipe,
+            transaksi.tanggal
+        FROM transaksi
+        JOIN barang
+        ON transaksi.id_barang = barang.id_barang
+        JOIN kategori
+        ON barang.id_kategori = kategori.id_kategori
+        JOIN lokasi
+        ON barang.id_lokasi = lokasi.id_lokasi
+        ORDER BY transaksi.id_transaksi DESC
+    """)
+
+    laporan = cur.fetchall()
+
+    cur.close()
+
+    return render_template(
+        'petugas/data_laporan_petugas.html',
+        laporan=laporan
+    )
+
+# ================= TAMBAH TRANSAKSI ================= #
+
+@app.route('/tambah_transaksi', methods=['GET', 'POST'])
 def tambah_transaksi():
-    return render_template('petugas/tambah_transaksi.html')
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("SELECT * FROM barang")
+    barang = cur.fetchall()
+
+    if request.method == 'POST':
+
+        id_barang = request.form['id_barang']
+        tipe = request.form['tipe']
+
+        id_petugas = session['petugas']
+
+        cur.execute("""
+            INSERT INTO transaksi
+            (
+                id_barang,
+                tipe,
+                id_petugas,
+                tanggal
+            )
+            VALUES (%s,%s,%s,NOW())
+        """, (
+            id_barang,
+            tipe,
+            id_petugas
+        ))
+
+        mysql.connection.commit()
+
+        flash('Transaksi berhasil ditambahkan')
+
+        return redirect(url_for('data_laporan_petugas'))
+
+    return render_template(
+        'petugas/tambah_transaksi.html',
+        barang=barang
+    )
+
+# ================= EDIT TRANSAKSI ================= #
+
+@app.route('/edit_transaksi/<int:id>')
+def edit_transaksi(id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute(
+        "SELECT * FROM transaksi WHERE id_transaksi=%s",
+        (id,)
+    )
+
+    transaksi = cur.fetchone()
+
+    cur.execute("SELECT * FROM barang")
+    barang = cur.fetchall()
+
+    cur.close()
+
+    return render_template(
+        'petugas/edit_transaksi.html',
+        transaksi=transaksi,
+        barang=barang
+    )
+
+# ================= UPDATE TRANSAKSI ================= #
+
+@app.route('/update_transaksi/<int:id>', methods=['POST'])
+def update_transaksi(id):
+
+    id_barang = request.form['id_barang']
+    tipe = request.form['tipe']
+
+    cur = mysql.connection.cursor()
+
+    cur.execute("""
+        UPDATE transaksi
+        SET
+            id_barang=%s,
+            tipe=%s
+        WHERE id_transaksi=%s
+    """, (
+        id_barang,
+        tipe,
+        id
+    ))
+
+    mysql.connection.commit()
+
+    cur.close()
+
+    flash('Transaksi berhasil diupdate')
+
+    return redirect(url_for('data_laporan_petugas'))
+
+# ================= HAPUS TRANSAKSI ================= #
+
+@app.route('/hapus_transaksi/<int:id>')
+def hapus_transaksi(id):
+
+    cur = mysql.connection.cursor()
+
+    cur.execute(
+        "DELETE FROM transaksi WHERE id_transaksi=%s",
+        (id,)
+    )
+
+    mysql.connection.commit()
+
+    cur.close()
+
+    flash('Transaksi berhasil dihapus')
+
+    return redirect(url_for('data_laporan_petugas'))
+
+# ================= RUN ================= #
 
 if __name__ == '__main__':
     app.run(debug=True)

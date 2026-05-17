@@ -5,33 +5,120 @@
 {% block content %}
 
 <div class="content-data_barang">
+
   <div class="card">
-    <h1>Tambah Barang</h1>
-    <p class="subtitle">Isi Data Barang</p>
 
-    <form>
+    <!-- HEADER -->
+    <div class="mb-4">
+
+      <h1>Tambah Barang</h1>
+
+      <p class="subtitle">
+        Isi Data Barang Inventaris
+      </p>
+
+    </div>
+
+    <!-- FORM -->
+    <form method="POST" action="{{ url_for('tambah_barang') }}">
+
+      <!-- NOMOR BARANG -->
+      <label>Nomor Barang</label>
+
+      <input 
+        type="text"
+        name="nomor_barang"
+        placeholder="Masukkan nomor barang"
+        required
+      >
+
+      <!-- NAMA BARANG -->
       <label>Nama Barang</label>
-      <input type="text">
 
+      <input 
+        type="text"
+        name="nama_barang"
+        placeholder="Masukkan nama barang"
+        required
+      >
+
+      <!-- KATEGORI -->
       <label>Kategori</label>
-      <input type="text">
 
+      <select name="id_kategori" required>
+
+        <option value="">
+          -- Pilih Kategori --
+        </option>
+
+        {% for k in kategori %}
+        <option value="{{ k.id_kategori }}">
+          {{ k.nama_kategori }}
+        </option>
+        {% endfor %}
+
+      </select>
+
+      <!-- LOKASI -->
       <label>Lokasi</label>
-      <input type="text">
 
-      <label>Kondisi</label>
-      <input type="text">
+      <select name="id_lokasi" required>
 
+        <option value="">
+          -- Pilih Lokasi --
+        </option>
+
+        {% for l in lokasi %}
+        <option value="{{ l.id_lokasi }}">
+          {{ l.nama_lokasi }}
+        </option>
+        {% endfor %}
+
+      </select>
+
+      <!-- KONDISI -->
+      <label>Kondisi Barang</label>
+
+      <select name="kondisi_barang" required>
+
+        <option value="">
+          -- Pilih Kondisi --
+        </option>
+
+        <option value="Baik">
+          Baik
+        </option>
+
+        <option value="Rusak">
+          Rusak
+        </option>
+
+      </select>
+
+      <!-- BUTTON -->
       <div class="actions">
-        <button type="button" class="btn">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
+
+        <button 
+          type="button"
+          class="btn"
+          onclick="window.history.back()"
+        >
+          Batal
+        </button>
+
+        <button 
+          type="submit"
+          class="btn btn-primary"
+        >
+          Simpan
+        </button>
+
       </div>
+
     </form>
+
   </div>
+
 </div>
 
-{% endblock%}
-
-
-
-
+{% endblock %}

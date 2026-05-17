@@ -4,19 +4,64 @@
 
 {% block content %}
 
-<div class="container-box">
-  <h3>Edit Data Kategori</h3>
-  <div class="subtitle">Edit/update data kategori</div>
+<div class="content-data_barang">
 
-  <div class="mb-3">
-    <label>Nama Kategori</label>
-    <input type="text" class="form-control">
-  </div>
+    <div class="card">
 
-  <div class="btn-group-custom">
-    <button class="btn-batal">Batal</button>
-    <button class="btn-simpan">Simpan</button>
-  </div>
+        <!-- HEADER -->
+        <div class="mb-4">
+
+            <h1>Edit Data Kategori</h1>
+
+            <p class="subtitle">
+                Edit/update data kategori
+            </p>
+
+        </div>
+
+        <!-- FORM -->
+        <form 
+            action="{{ url_for('update_kategori', id=kategori.id_kategori) }}"
+            method="POST"
+        >
+
+            <label>Nama Kategori</label>
+
+            <input 
+                type="text"
+                name="nama_kategori"
+                value="{{ kategori.nama_kategori }}"
+                placeholder="Masukkan nama kategori"
+                required
+            >
+
+            <!-- BUTTON -->
+            <div class="actions">
+
+                <a href="{{ url_for('data_kategori') }}">
+
+                    <button 
+                        type="button"
+                        class="btn"
+                    >
+                        Batal
+                    </button>
+
+                </a>
+
+                <button 
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
 {% endblock %}

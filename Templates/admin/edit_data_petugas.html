@@ -4,24 +4,65 @@
 
 {% block content %}
 
-  <div class="wrapper">
-    <div class="card">
-      <h1>Edit Data Petugas</h1>
-      <div class="subtitle">Isi data Petugas</div>
+<div class="wrapper">
+  <div class="card">
+    <h1>Edit Data Petugas</h1>
+    <div class="subtitle">Isi data Petugas</div>
 
-      <form>
-        <label>Nama Petugas</label>
-        <input type="text" />
+    <!-- FORM TERHUBUNG KE APP.PY -->
+    <form action="{{ url_for('update_petugas', id=petugas.id_petugas) }}" method="POST">
 
-        <label>Lokasi</label>
-        <input type="text" />
+      <!-- USERNAME -->
+      <label>Nama Petugas</label>
+      <input 
+        type="text" 
+        name="username"
+        value="{{ petugas.username }}"
+        required
+      />
 
-        <div class="actions">
+      <!-- PASSWORD (OPSIONAL) -->
+      <label>Password (kosongkan jika tidak diubah)</label>
+      <input 
+        type="password" 
+        name="password"
+      />
+
+      <!-- LOKASI (DROPDOWN DARI DATABASE) -->
+      <label>Lokasi</label>
+      <select name="id_lokasi" required>
+
+        {% for l in lokasi %}
+
+          <option value="{{ l.id_lokasi }}"
+            {% if l.id_lokasi == petugas.id_lokasi %}
+              selected
+            {% endif %}
+          >
+            {{ l.nama_lokasi }}
+          </option>
+
+        {% endfor %}
+
+      </select>
+
+      <div class="actions">
+
+        <!-- BATAL -->
+        <a href="{{ url_for('data_petugas') }}">
           <button type="button" class="btn">Batal</button>
-          <button type="submit" class="btn btn-primary">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
+        </a>
 
-{% endblock%}
+        <!-- SIMPAN -->
+        <button type="submit" class="btn btn-primary">
+          Simpan
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
