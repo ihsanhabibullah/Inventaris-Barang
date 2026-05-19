@@ -134,6 +134,25 @@
 
     </div>
 
+    <!-- FILTERS -->
+    <form class="d-flex gap-3 mb-4" method="GET" action="{{ url_for('data_laporan') }}">
+        <select name="id_lokasi">
+            <option value="">Semua Ruangan</option>
+            {% for loc in lokasi %}
+            <option value="{{ loc.id_lokasi }}" {% if selected_lokasi and selected_lokasi == loc.id_lokasi|string %}selected{% endif %}>{{ loc.nama_lokasi }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="id_kategori">
+            <option value="">Semua Kategori</option>
+            {% for ktg in kategori %}
+            <option value="{{ ktg.id_kategori }}" {% if selected_kategori and selected_kategori == ktg.id_kategori|string %}selected{% endif %}>{{ ktg.nama_kategori }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-primary">Cari</button>
+    </form>
+
     <!-- TABLE -->
     <div class="table-wrapper">
 
@@ -144,7 +163,6 @@
                     <th>Lokasi</th>
                     <th>Nama Barang</th>
                     <th>Kategori</th>
-                    <th>Stok</th>
                     <th>Kondisi</th>
                     <th>Tanggal</th>
                     <th>Nama Petugas</th>
@@ -163,13 +181,7 @@
                     <td>{{ l.nama_lokasi }}</td>
                     <td>{{ l.nama_barang }}</td>
                     <td>{{ l.nama_kategori }}</td>
-
-                    <!-- STOK TIDAK ADA -->
-                    <td>-</td>
-
-                    <!-- KONDISI -->
-                    <td>{{ l.kondisi }}</td>
-
+                    <td>{{ l.kondisi_barang }}</td>
                     <td>{{ l.tanggal }}</td>
                     <td>{{ l.username }}</td>
 
@@ -193,7 +205,7 @@
             {% else %}
 
                 <tr>
-                    <td colspan="8" style="text-align:center; padding:30px;">
+                    <td colspan="7" style="text-align:center; padding:30px;">
                         Data laporan masih kosong
                     </td>
                 </tr>

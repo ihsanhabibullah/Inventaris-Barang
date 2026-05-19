@@ -25,6 +25,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 
     gap: 20px;
 
@@ -36,6 +37,7 @@
 .search-bar{
 
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
 
     gap: 12px;
@@ -302,27 +304,25 @@ tbody tr:hover{
 
 <div class="top-bar">
 
-    <div class="search-bar">
+    <form class="search-bar" method="GET" action="{{ url_for('data_barang') }}">
 
-        <input type="text" placeholder="Cari barang...">
-
-        <select>
-
-            <option>
-                Semua Kategori
-            </option>
-
+        <select name="id_kategori">
+            <option value="">Semua Kategori</option>
             {% for ktg in kategori %}
-            
-            <option>
-                {{ ktg.nama_kategori }}
-            </option>
-
+            <option value="{{ ktg.id_kategori }}" {% if selected_kategori and selected_kategori == ktg.id_kategori|string %}selected{% endif %}>{{ ktg.nama_kategori }}</option>
             {% endfor %}
-
         </select>
 
-    </div>
+        <select name="id_lokasi">
+            <option value="">Semua Lokasi</option>
+            {% for loc in lokasi %}
+            <option value="{{ loc.id_lokasi }}" {% if selected_lokasi and selected_lokasi == loc.id_lokasi|string %}selected{% endif %}>{{ loc.nama_lokasi }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn-add">Cari</button>
+
+    </form>
 
     <a href="{{ url_for('tambah_barang') }}">
 

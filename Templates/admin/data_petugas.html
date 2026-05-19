@@ -287,14 +287,16 @@ tbody tr:hover{
 
 <div class="top-bar">
 
-    <div class="search-bar">
+    <form class="search-bar" action="{{ url_for('data_petugas') }}" method="get">
 
         <input 
             type="text"
+            name="q"
+            value="{{ search_query|default('') }}"
             placeholder="Cari petugas..."
         >
 
-    </div>
+    </form>
 
     <a href="{{ url_for('tambah_petugas') }}">
 

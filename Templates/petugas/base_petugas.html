@@ -67,6 +67,21 @@
             font-size: 18px;
             flex-shrink: 0;
         }
+        .logout-link{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.12);
+            transition: .25s ease;
+        }
+        .logout-link:hover{
+            background: rgba(255,255,255,0.18);
+        }
 
         /* ================= CONTENT ================= */
         .content{
@@ -187,6 +202,10 @@
                 <div style="font-weight:600;">{{ session.get('username', 'Petugas') }}</div>
             </div>
         </div>
+        <a href="{{ url_for('logout') }}" class="logout-link">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+        </a>
     </aside>
 
     <!-- CONTENT -->

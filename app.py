@@ -104,6 +104,8 @@ def seeder_petugas():
 @app.route('/login_admin', methods=['GET', 'POST'])
 def login_admin():
 
+    username = ''
+
     if request.method == 'POST':
 
         username = request.form['username']
@@ -127,21 +129,22 @@ def login_admin():
                 session['admin'] = admin['id_admin']
                 session['username'] = admin['username']
 
-                flash('Login berhasil')
+                flash('Login berhasil', 'success')
 
                 return redirect(url_for('dashboard_admin'))
 
             else:
-                flash('Password salah')
+                flash('Password salah', 'danger')
 
         else:
-            flash('Username tidak ditemukan')
+            flash('Username tidak ditemukan', 'danger')
 
-    return render_template('login_admin.html')
+    return render_template('login_admin.html', username=username)
 
 
 @app.route('/login_petugas', methods=['GET', 'POST'])
 def login_petugas():
+    username = ''
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -181,7 +184,7 @@ def login_petugas():
 
         print("=" * 50)
 
-    return render_template('login_petugas.html')
+    return render_template('login_petugas.html', username=username)
 
 # ================= LOGOUT ================= #
 
@@ -199,17 +202,33 @@ def dashboard_admin():
 
     cur = mysql.connection.cursor()
 
+    cur.execute("SELECT COUNT(*) AS total_transaksi FROM transaksi")
+    total_transaksi = cur.fetchone()['total_transaksi']
+
+    cur.execute("SELECT COUNT(*) AS total_lokasi FROM lokasi")
+    total_lokasi = cur.fetchone()['total_lokasi']
+
+    cur.execute("SELECT COUNT(*) AS total_petugas FROM petugas")
+    total_petugas = cur.fetchone()['total_petugas']
+
+    cur.execute("SELECT COUNT(*) AS total_kategori FROM kategori")
+    total_kategori = cur.fetchone()['total_kategori']
+
     cur.execute("""
-        SELECT 
-            barang.id_barang,
-            barang.nomor_barang,
-            barang.nama_barang,
-            barang.kondisi_barang,
-            transaksi.tanggal,
-            transaksi.tipe
-        FROM transaksi
-        JOIN barang ON transaksi.id_barang = barang.id_barang
-        ORDER BY transaksi.tanggal DESC
+        SELECT
+            t.id_transaksi,
+            l.nama_lokasi,
+            b.nama_barang,
+            k.nama_kategori,
+            t.tanggal,
+            p.username AS nama_petugas,
+            t.tipe
+        FROM transaksi t
+        JOIN barang b ON t.id_barang = b.id_barang
+        JOIN kategori k ON b.id_kategori = k.id_kategori
+        JOIN lokasi l ON b.id_lokasi = l.id_lokasi
+        JOIN petugas p ON t.id_petugas = p.id_petugas
+        ORDER BY t.tanggal DESC, t.id_transaksi DESC
     """)
 
     laporan_gudang = cur.fetchall()
@@ -218,7 +237,11 @@ def dashboard_admin():
 
     return render_template(
         'admin/dashboard_admin.html',
-        laporan_gudang=laporan_gudang
+        laporan_gudang=laporan_gudang,
+        total_transaksi=total_transaksi,
+        total_lokasi=total_lokasi,
+        total_petugas=total_petugas,
+        total_kategori=total_kategori
     )
 
 # ================= DATA BARANG ================= #
@@ -229,27 +252,49 @@ def data_barang():
 
     cur = mysql.connection.cursor()
 
-    cur.execute("""
+    # ambil daftar kategori dan lokasi untuk select filter
+    cur.execute("SELECT * FROM kategori ORDER BY nama_kategori ASC")
+    kategori = cur.fetchall()
+    cur.execute("SELECT * FROM lokasi ORDER BY nama_lokasi ASC")
+    lokasi = cur.fetchall()
+
+    # ambil filter dari query params
+    id_kategori = request.args.get('id_kategori')
+    id_lokasi = request.args.get('id_lokasi')
+
+    # bangun query dinamis
+    base_query = """
         SELECT 
             barang.*,
             kategori.nama_kategori,
             lokasi.nama_lokasi
         FROM barang
-        JOIN kategori
-        ON barang.id_kategori = kategori.id_kategori
-        JOIN lokasi
-        ON barang.id_lokasi = lokasi.id_lokasi
-        ORDER BY barang.id_barang DESC
-    """)
+        JOIN kategori ON barang.id_kategori = kategori.id_kategori
+        JOIN lokasi ON barang.id_lokasi = lokasi.id_lokasi
+    """
 
+    filters = []
+    params = []
+
+    if id_kategori:
+        filters.append("barang.id_kategori = %s")
+        params.append(id_kategori)
+
+    if id_lokasi:
+        filters.append("barang.id_lokasi = %s")
+        params.append(id_lokasi)
+
+    if filters:
+        base_query += " WHERE " + " AND ".join(filters)
+
+    base_query += " ORDER BY barang.id_barang DESC"
+
+    cur.execute(base_query, tuple(params))
     barang = cur.fetchall()
 
     cur.close()
 
-    return render_template(
-        'admin/data_barang.html',
-        barang=barang
-    )
+    return render_template('admin/data_barang.html', barang=barang, kategori=kategori, lokasi=lokasi, selected_kategori=id_kategori, selected_lokasi=id_lokasi)
 
 # ================= TAMBAH BARANG ================= #
 
@@ -632,19 +677,35 @@ def update_lokasi(id):
 @login_required
 def data_petugas():
 
+    search_query = request.args.get('q', '').strip()
+
     cur = mysql.connection.cursor()
 
-    cur.execute("""
-        SELECT 
-            p.id_petugas,
-            p.username,
-            p.id_lokasi,
-            l.nama_lokasi
-        FROM petugas p
-        JOIN lokasi l 
-        ON p.id_lokasi = l.id_lokasi
-        ORDER BY p.id_petugas DESC
-    """)
+    if search_query:
+        cur.execute("""
+            SELECT 
+                p.id_petugas,
+                p.username,
+                p.id_lokasi,
+                l.nama_lokasi
+            FROM petugas p
+            JOIN lokasi l 
+            ON p.id_lokasi = l.id_lokasi
+            WHERE p.username LIKE %s
+            ORDER BY p.id_petugas DESC
+        """, ('%' + search_query + '%',))
+    else:
+        cur.execute("""
+            SELECT 
+                p.id_petugas,
+                p.username,
+                p.id_lokasi,
+                l.nama_lokasi
+            FROM petugas p
+            JOIN lokasi l 
+            ON p.id_lokasi = l.id_lokasi
+            ORDER BY p.id_petugas DESC
+        """)
 
     petugas = cur.fetchall()
 
@@ -652,7 +713,8 @@ def data_petugas():
 
     return render_template(
         'admin/data_petugas.html',
-        petugas=petugas
+        petugas=petugas,
+        search_query=search_query
     )
 
 # ================= lihat barang lokasi ================= #
@@ -838,8 +900,17 @@ def hapus_petugas(id):
 def data_laporan():
 
     cur = mysql.connection.cursor()
+    # ambil daftar kategori dan lokasi untuk filter
+    cur.execute("SELECT * FROM kategori ORDER BY nama_kategori ASC")
+    kategori = cur.fetchall()
+    cur.execute("SELECT * FROM lokasi ORDER BY nama_lokasi ASC")
+    lokasi = cur.fetchall()
 
-    query = """
+    # ambil filter dari query params
+    id_kategori = request.args.get('id_kategori')
+    id_lokasi = request.args.get('id_lokasi')
+
+    base_query = """
         SELECT 
             l.nama_lokasi,
             b.nama_barang,
@@ -861,20 +932,29 @@ def data_laporan():
 
         INNER JOIN petugas p 
             ON t.id_petugas = p.id_petugas
-
-        ORDER BY t.tanggal DESC
     """
 
-    cur.execute(query)
+    filters = []
+    params = []
 
+    if id_kategori:
+        filters.append("b.id_kategori = %s")
+        params.append(id_kategori)
+    if id_lokasi:
+        filters.append("b.id_lokasi = %s")
+        params.append(id_lokasi)
+
+    if filters:
+        base_query += " WHERE " + " AND ".join(filters)
+
+    base_query += " ORDER BY t.tanggal DESC"
+
+    cur.execute(base_query, tuple(params))
     laporan = cur.fetchall()
 
     cur.close()
 
-    return render_template(
-        'admin/data_laporan.html',
-        laporan=laporan
-    )
+    return render_template('admin/data_laporan.html', laporan=laporan, kategori=kategori, lokasi=lokasi, selected_kategori=id_kategori, selected_lokasi=id_lokasi)
 # ================= DASHBOARD PETUGAS ================= #
 
 @app.route('/dashboard_petugas')
@@ -1007,18 +1087,25 @@ def data_lokasi_petugas():
 @petugas_login_required
 def tambah_transaksi():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM barang ORDER BY nama_barang ASC")
+
+    cur.execute("SELECT id_lokasi FROM lokasi WHERE nama_lokasi LIKE %s LIMIT 1", ("%Gudang%",))
+    gudang_row = cur.fetchone()
+    id_lokasi_gudang = gudang_row['id_lokasi'] if gudang_row else None
+
+    cur.execute("SELECT * FROM barang WHERE id_lokasi=%s ORDER BY nama_barang ASC", (id_lokasi_gudang,))
     barang = cur.fetchall()
+
     if request.method == 'POST':
         id_barang = request.form['id_barang']
         tipe = request.form['tipe']
         tanggal = request.form.get('tanggal') or None
         id_petugas = session['petugas']
-        id_lokasi_petugas = session.get('id_lokasi')
-        if not id_lokasi_petugas:
-            cur.execute("SELECT id_lokasi FROM petugas WHERE id_petugas=%s", (id_petugas,))
-            petugas_row = cur.fetchone()
-            id_lokasi_petugas = petugas_row['id_lokasi'] if petugas_row else None
+
+        cur.execute("SELECT id_lokasi FROM barang WHERE id_barang=%s", (id_barang,))
+        barang_row = cur.fetchone()
+        if not barang_row or barang_row['id_lokasi'] != id_lokasi_gudang:
+            flash('Barang hanya dapat dipilih dari gudang instansi.', 'danger')
+            return redirect(url_for('tambah_transaksi'))
 
         if tanggal:
             cur.execute("""
@@ -1032,13 +1119,8 @@ def tambah_transaksi():
             """, (id_barang, tipe, id_petugas))
         mysql.connection.commit()
 
-        # cari lokasi gudang (cari nama mengandung 'Gudang')
-        cur.execute("SELECT id_lokasi FROM lokasi WHERE nama_lokasi LIKE %s LIMIT 1", ("%Gudang%",))
-        gudang_row = cur.fetchone()
-        id_lokasi_gudang = gudang_row['id_lokasi'] if gudang_row else None
-
-        if tipe.lower() == 'masuk' and id_lokasi_petugas:
-            cur.execute("UPDATE barang SET id_lokasi=%s WHERE id_barang=%s", (id_lokasi_petugas, id_barang))
+        if tipe.lower() == 'masuk' and session.get('id_lokasi'):
+            cur.execute("UPDATE barang SET id_lokasi=%s WHERE id_barang=%s", (session['id_lokasi'], id_barang))
             mysql.connection.commit()
         elif tipe.lower() == 'keluar' and id_lokasi_gudang:
             cur.execute("UPDATE barang SET id_lokasi=%s WHERE id_barang=%s", (id_lokasi_gudang, id_barang))
@@ -1046,6 +1128,7 @@ def tambah_transaksi():
 
         flash('Transaksi berhasil ditambahkan', 'success')
         return redirect(url_for('data_laporan_petugas'))
+
     return render_template('petugas/tambah_transaksi.html', barang=barang)
 
 # ================= EDIT TRANSAKSI ================= #
@@ -1054,9 +1137,17 @@ def tambah_transaksi():
 @petugas_login_required
 def edit_transaksi(id):
     cur = mysql.connection.cursor()
+    cur.execute("SELECT id_lokasi FROM lokasi WHERE nama_lokasi LIKE %s LIMIT 1", ("%Gudang%",))
+    gudang_row = cur.fetchone()
+    id_lokasi_gudang = gudang_row['id_lokasi'] if gudang_row else None
+
     cur.execute("SELECT * FROM transaksi WHERE id_transaksi=%s", (id,))
     transaksi = cur.fetchone()
-    cur.execute("SELECT * FROM barang ORDER BY nama_barang ASC")
+    current_barang_id = transaksi['id_barang'] if transaksi else 0
+    cur.execute(
+        "SELECT * FROM barang WHERE id_lokasi=%s OR id_barang=%s ORDER BY nama_barang ASC",
+        (id_lokasi_gudang, current_barang_id)
+    )
     barang = cur.fetchall()
     cur.close()
     return render_template('petugas/edit_transaksi.html', transaksi=transaksi, barang=barang)
@@ -1077,6 +1168,17 @@ def update_transaksi(id):
         cur.execute("SELECT id_lokasi FROM petugas WHERE id_petugas=%s", (id_petugas,))
         petugas_row = cur.fetchone()
         id_lokasi_petugas = petugas_row['id_lokasi'] if petugas_row else None
+
+    cur.execute("SELECT id_lokasi FROM lokasi WHERE nama_lokasi LIKE %s LIMIT 1", ("%Gudang%",))
+    gudang_row = cur.fetchone()
+    id_lokasi_gudang = gudang_row['id_lokasi'] if gudang_row else None
+
+    cur.execute("SELECT id_lokasi FROM barang WHERE id_barang=%s", (id_barang,))
+    barang_row = cur.fetchone()
+    if not barang_row or barang_row['id_lokasi'] != id_lokasi_gudang:
+        flash('Barang hanya dapat dipilih dari gudang instansi.', 'danger')
+        return redirect(url_for('edit_transaksi', id=id))
+
     if tanggal:
         cur.execute("""
             UPDATE transaksi SET id_barang=%s, tipe=%s, tanggal=%s WHERE id_transaksi=%s
@@ -1086,11 +1188,6 @@ def update_transaksi(id):
             UPDATE transaksi SET id_barang=%s, tipe=%s WHERE id_transaksi=%s
         """, (id_barang, tipe, id))
     mysql.connection.commit()
-
-    # update lokasi barang sesuai tipe jika lokasi petugas ada
-    cur.execute("SELECT id_lokasi FROM lokasi WHERE nama_lokasi LIKE %s LIMIT 1", ("%Gudang%",))
-    gudang_row = cur.fetchone()
-    id_lokasi_gudang = gudang_row['id_lokasi'] if gudang_row else None
 
     if tipe.lower() == 'masuk' and id_lokasi_petugas:
         cur.execute("UPDATE barang SET id_lokasi=%s WHERE id_barang=%s", (id_lokasi_petugas, id_barang))
