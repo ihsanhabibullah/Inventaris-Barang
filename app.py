@@ -84,20 +84,6 @@ def seeder_admin():
 
     return 'Seeder admin berhasil dibuat'
 
-# ================= SEEDER PETUGAS ================= #
-
-@app.route('/seeder_petugas')
-def seeder_petugas():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM petugas WHERE username=%s", ('petugas 1',))
-    cek_petugas = cur.fetchone()
-    if cek_petugas:
-        cur.close()
-        return 'Petugas sudah ada'
-    cur.execute("INSERT INTO petugas (username, password, id_lokasi) VALUES (%s,%s,%s)", ('papa zola', 'pemebela kebenaran', 1))
-    mysql.connection.commit()
-    cur.close()
-    return 'Seeder petugas berhasil dibuat'
 
 # ================= LOGIN ADMIN ================= #
 
